@@ -189,7 +189,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
         total: document.getElementById('totalDisplay').innerText
     };
 
-    const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzYYDZBok2sTcHpBOzwIXRvTs511o3vS79zEeYQAa8o7msQGRR_e83RlepveH8AnVgZ/exec';
 
     fetch(scriptURL, { method: 'POST', body: JSON.stringify(formData) })
     .then(() => {
