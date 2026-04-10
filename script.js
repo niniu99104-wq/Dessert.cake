@@ -1,18 +1,57 @@
 let originalSize8Option = null;
 let originalFrozenOption = null;
 
+// 💡 【店休日與不接單日設定區】
+// 請將不想接單的日期填在引號內，格式必須是 "YYYY-MM-DD"
+const offDays = [
+    "2026-04-20", 
+    "2026-05-01", 
+    "2026-05-20"
+];
+
 document.addEventListener("DOMContentLoaded", function() {
-    // 設定日期限制
     const dateInput = document.getElementById('pickupDate');
     const today = new Date();
     today.setDate(today.getDate() + 5);
-    dateInput.min = today.toISOString().split('T')[0];
-    dateInput.value = today.toISOString().split('T')[0];
     
-    // 預存 8 吋和宅配選項，方便之後拔掉與裝回
+    // 設定最小值 (今天+5天)
+    const minStr = today.toISOString().split('T')[0];
+    dateInput.min = minStr;
+    dateInput.value = minStr;
+    
     originalSize8Option = document.getElementById('size-8');
     originalFrozenOption = document.getElementById('frozen-option');
+    
+    // 初始化時檢查一次預設日期
+    validateDate();
 });
+
+// ✨ 強勢日期防呆邏輯：連假、店休、週末宅配一律擋下
+function validateDate() {
+    const dateInput = document.getElementById('pickupDate');
+    const methodSelect = document.getElementById('method');
+    const selectedDateStr = dateInput.value;
+    
+    if (!selectedDateStr) return;
+    
+    const selectedDate = new Date(selectedDateStr);
+    const dayOfWeek = selectedDate.getDay(); // 0 是週日, 5 是週五, 6 是週六
+    
+    // 1. 擋下店休/不接單日
+    if (offDays.includes(selectedDateStr)) {
+        alert("這天是我們的店休日或滿單日喔，請幫我們選擇其他日期，謝謝！");
+        dateInput.value = dateInput.min; // 強制退回最早可訂日
+        return;
+    }
+    
+    // 2. 擋下五、六、日宅配
+    if (methodSelect.value === 'frozen') {
+        if (dayOfWeek === 5 || dayOfWeek === 6 || dayOfWeek === 0) {
+            alert("黑貓宅配週五、週六、週日不收件也不配送喔！\n請幫我們選擇週一至週四的日期，或是改為店鋪自取。");
+            dateInput.value = ""; // 強制清空日期，要客人重選
+        }
+    }
+}
 
 function handleFlavorChange() {
     checkConstraints();
@@ -38,47 +77,33 @@ function checkConstraints() {
     if (flavorSelect.selectedIndex === 0) return;
     
     const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
-    
-    // 強制讀取標籤屬性
     const no8inch = selectedOption.getAttribute("data-no-8") === "true";
     const noFrozen = selectedOption.getAttribute("data-no-frozen") === "true";
     
     const sizeSelect = document.getElementById('size');
     const methodSelect = document.getElementById('method');
 
-    // 🛑 霸道拔除 8 吋：安靜消失，不跳通知
+    // 處理 8 吋
     if (no8inch) {
-        if (document.getElementById('size-8')) {
-            document.getElementById('size-8').remove();
-        }
-        // 如果客人本來選了8吋才換口味，我們默默幫他清空尺寸
+        if (document.getElementById('size-8')) document.getElementById('size-8').remove();
         if (sizeSelect.value === "960") {
             sizeSelect.value = ""; 
             updateTotal();
         }
     } else {
-        // 裝回來
-        if (!document.getElementById('size-8')) {
-            sizeSelect.appendChild(originalSize8Option);
-        }
+        if (!document.getElementById('size-8')) sizeSelect.appendChild(originalSize8Option);
     }
 
-    // 🛑 霸道拔除宅配：安靜消失，不跳通知
+    // 處理宅配
     const currentFrozen = document.getElementById('frozen-option');
     if (noFrozen) {
-        if (currentFrozen) {
-            currentFrozen.remove();
-        }
-        // 如果客人本來選了宅配才換口味，我們默默幫他切回自取
+        if (currentFrozen) currentFrozen.remove();
         if (methodSelect.value === "frozen") {
             methodSelect.value = "pickup";
             toggleShipping(); 
         }
     } else {
-        // 裝回來
-        if (!document.getElementById('frozen-option')) {
-            methodSelect.appendChild(originalFrozenOption);
-        }
+        if (!document.getElementById('frozen-option')) methodSelect.appendChild(originalFrozenOption);
     }
 }
 
@@ -88,6 +113,8 @@ function toggleShipping() {
         document.getElementById('district').value = "250";
         document.getElementById('pickupSection').classList.add('hidden');
         document.getElementById('deliverySection').classList.remove('hidden');
+        // ✨ 切換到宅配時，立刻觸發日期檢查
+        validateDate();
     } else {
         document.getElementById('pickupSection').classList.toggle('hidden', method !== 'pickup');
         document.getElementById('deliverySection').classList.toggle('hidden', method !== 'delivery');
@@ -116,7 +143,6 @@ function updateTotal() {
     const total = basePrice + addon1 + addon2 + shipping;
     document.getElementById('shippingDisplay').innerText = shipping;
     document.getElementById('totalDisplay').innerText = total;
-    
     document.getElementById('orderForm').setAttribute('data-product-amount', basePrice + addon1 + addon2);
 }
 
@@ -156,7 +182,6 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
         total: document.getElementById('totalDisplay').innerText
     };
 
-    // 💡 注意：請確認這裡有換成妳的 Google Apps Script URL！
     const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
 
     fetch(scriptURL, { method: 'POST', body: JSON.stringify(formData) })
@@ -168,7 +193,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
         window.scrollTo(0, 0); 
     })
     .catch(() => {
-        alert('系統忙碌中，請直接截圖私訊豆媽。');
+        alert('系統忙碌中，請聯繫豆媽。');
         submitBtn.disabled = false;
         submitBtn.innerText = "建立訂單並前往結帳";
     });
