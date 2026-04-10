@@ -78,7 +78,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
     };
 
     // 💡 務必替換為妳部署好的 Google Apps Script 網址
-    const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzGWtdrBfje6IZZNzED9iLtj-SE1B9viKqJmtWmUxOR9zRJuN65xGP7LHnTvfpRCRE/exec';
 
     fetch(scriptURL, { 
         method: 'POST', 
