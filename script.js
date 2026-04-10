@@ -4,9 +4,13 @@ let originalFrozenOption = null;
 // 💡 【店休日與不接單日設定區】
 // 請將不想接單的日期填在引號內，格式必須是 "YYYY-MM-DD"
 const offDays = [
+    "2026-04-12",     
+    "2026-04-18", 
+    "2026-04-19", 
     "2026-04-20", 
-    "2026-05-01", 
-    "2026-05-20"
+    "2026-04-25", 
+    "2026-04-26",   
+    "2026-04-27",     
 ];
 
 document.addEventListener("DOMContentLoaded", function() {
