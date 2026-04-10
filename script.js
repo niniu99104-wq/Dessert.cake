@@ -2,35 +2,41 @@ let originalSize8Option = null;
 let originalFrozenOption = null;
 
 // 💡 【店休日與不接單日設定區】
-// 請將不想接單的日期填在引號內，格式必須是 "YYYY-MM-DD"
+// 已經幫妳填好這 7 天
 const offDays = [
-    "2026-04-12",     
+    "2026-04-12", 
     "2026-04-18", 
     "2026-04-19", 
     "2026-04-20", 
     "2026-04-25", 
-    "2026-04-26",   
-    "2026-04-27",     
+    "2026-04-26", 
+    "2026-04-27"
 ];
 
 document.addEventListener("DOMContentLoaded", function() {
     const dateInput = document.getElementById('pickupDate');
     const today = new Date();
-    today.setDate(today.getDate() + 5);
     
-    // 設定最小值 (今天+5天)
-    const minStr = today.toISOString().split('T')[0];
+    // 1. 設定最小值 (今天+5天)
+    const minDate = new Date();
+    minDate.setDate(today.getDate() + 5);
+    const minStr = minDate.toISOString().split('T')[0];
     dateInput.min = minStr;
     dateInput.value = minStr;
+    
+    // 2. 設定最大值 (15號開放下月邏輯)
+    let maxDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); // 本月底
+    if (today.getDate() >= 15) {
+        maxDate = new Date(today.getFullYear(), today.getMonth() + 2, 0); // 下月底
+    }
+    dateInput.max = maxDate.toISOString().split('T')[0];
     
     originalSize8Option = document.getElementById('size-8');
     originalFrozenOption = document.getElementById('frozen-option');
     
-    // 初始化時檢查一次預設日期
     validateDate();
 });
 
-// ✨ 強勢日期防呆邏輯：連假、店休、週末宅配一律擋下
 function validateDate() {
     const dateInput = document.getElementById('pickupDate');
     const methodSelect = document.getElementById('method');
@@ -39,20 +45,20 @@ function validateDate() {
     if (!selectedDateStr) return;
     
     const selectedDate = new Date(selectedDateStr);
-    const dayOfWeek = selectedDate.getDay(); // 0 是週日, 5 是週五, 6 是週六
+    const dayOfWeek = selectedDate.getDay(); 
     
-    // 1. 擋下店休/不接單日
+    // 1. 檢查自定義店休日
     if (offDays.includes(selectedDateStr)) {
-        alert("這天是我們的店休日或滿單日喔，請幫我們選擇其他日期，謝謝！");
-        dateInput.value = dateInput.min; // 強制退回最早可訂日
+        alert("這天是店休日或滿單日，不接單喔，請選擇其他日期，謝謝！");
+        dateInput.value = dateInput.min;
         return;
     }
     
-    // 2. 擋下五、六、日宅配
+    // 2. 檢查宅配週末限制
     if (methodSelect.value === 'frozen') {
         if (dayOfWeek === 5 || dayOfWeek === 6 || dayOfWeek === 0) {
-            alert("黑貓宅配週五、週六、週日不收件也不配送喔！\n請幫我們選擇週一至週四的日期，或是改為店鋪自取。");
-            dateInput.value = ""; // 強制清空日期，要客人重選
+            alert("黑貓宅配週五、週六、週日不收件也不配送喔！\n請選擇週一至週四，或是改為店鋪自取。");
+            dateInput.value = ""; 
         }
     }
 }
@@ -87,7 +93,6 @@ function checkConstraints() {
     const sizeSelect = document.getElementById('size');
     const methodSelect = document.getElementById('method');
 
-    // 處理 8 吋
     if (no8inch) {
         if (document.getElementById('size-8')) document.getElementById('size-8').remove();
         if (sizeSelect.value === "960") {
@@ -98,7 +103,6 @@ function checkConstraints() {
         if (!document.getElementById('size-8')) sizeSelect.appendChild(originalSize8Option);
     }
 
-    // 處理宅配
     const currentFrozen = document.getElementById('frozen-option');
     if (noFrozen) {
         if (currentFrozen) currentFrozen.remove();
@@ -117,7 +121,6 @@ function toggleShipping() {
         document.getElementById('district').value = "250";
         document.getElementById('pickupSection').classList.add('hidden');
         document.getElementById('deliverySection').classList.remove('hidden');
-        // ✨ 切換到宅配時，立刻觸發日期檢查
         validateDate();
     } else {
         document.getElementById('pickupSection').classList.toggle('hidden', method !== 'pickup');
@@ -197,7 +200,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
         window.scrollTo(0, 0); 
     })
     .catch(() => {
-        alert('系統忙碌中，請聯繫豆媽。');
+        alert('連線忙碌中，請聯繫香草籽。');
         submitBtn.disabled = false;
         submitBtn.innerText = "建立訂單並前往結帳";
     });
