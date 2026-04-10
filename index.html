@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>香草籽甜點｜生乳酪蛋糕訂購</title>
+    <title>豆媽手作｜生乳酪蛋糕訂購</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
-    <h1>香草籽' 生乳酪蛋糕</h1>
+    <h1>豆媽手作</h1>
     <p class="subtitle">每一份甜點，都是照顧出來的能量</p>
 
     <div class="intro-box">
         <h3>生乳酪蛋糕系列 /</h3>
-        <p>餅乾底是我們親自手作，非市售消化餅。整個蛋糕從裡到外都是誠意，吃了就知道！</p>
+        <p>我們的餅乾底，不是用外面一般市售的消化餅乾。整個蛋糕從裡到外、從上到下都是我們親手做的！吃了就知道啦～</p>
     </div>
 
     <form id="orderForm" data-product-amount="0">
@@ -32,20 +32,20 @@
             <label>生乳酪口味</label>
             <select id="flavor" required onchange="handleFlavorChange()">
                 <option value="" disabled selected>請選擇口味</option>
-                <option value="1.焦糖榛果" data-no-frozen="false" data-no-8="false">1. 焦糖榛果生乳酪 (可宅配)</option>
-                <option value="2.濃巧克力" data-no-frozen="false" data-no-8="false">2. 濃巧克力生乳酪 (可宅配)</option>
-                <option value="3.香濃黑芝麻" data-no-frozen="false" data-no-8="false">3. 香濃黑芝麻生乳酪 (可宅配)</option>
-                <option value="4.蜜桃荔枝" data-no-frozen="true" data-no-8="false">4. 蜜桃荔枝生乳酪 🔥 (限自取)</option>
-                <option value="5.香蕉巧克力" data-no-frozen="false" data-no-8="false">5. 香蕉巧克力生乳酪 - 香蕉濃 (可宅配)</option>
-                <option value="6.檸檬接骨木" data-no-frozen="true" data-no-8="false">6. 檸檬接骨木生乳酪 🔥 (極酸/限自取)</option>
-                <option value="7.蘋果柑橘" data-no-frozen="true" data-no-8="false">7. 蘋果柑橘生乳酪 (限自取)</option>
-                <option value="8.覆盆子巧克力" data-no-frozen="false" data-no-8="false">8. 覆盆子巧克力生乳酪 🔥 (可宅配)</option>
-                <option value="9.日本濃抹茶" data-no-frozen="true" data-no-8="true">9. 日本濃抹茶生乳酪 (無8吋/限自取)</option>
-                <option value="10.日本濃焙茶" data-no-frozen="true" data-no-8="true">10. 日本濃焙茶生乳酪 (無8吋/限自取)</option>
-                <option value="11.鹹蛋黃焦糖" data-no-frozen="false" data-no-8="false">11. 鹹蛋黃焦糖生乳酪 🔥 (可宅配)</option>
-                <option value="12.百香果柑橘" data-no-frozen="true" data-no-8="false">12. 百香果柑橘生乳酪 (限自取)</option>
-                <option value="13.巧克力香蕉" data-no-frozen="false" data-no-8="false">13. 巧克力香蕉生乳酪 - 巧克力濃 (可宅配)</option>
-                <option value="14.經典莓果" data-no-frozen="true" data-no-8="false">14. 經典莓果生乳酪 🔥 (限自取)</option>
+                <option value="1.焦糖榛果" data-no-frozen="false" data-no-8="false">1. 焦糖榛果 (可宅配)</option>
+                <option value="2.濃巧克力" data-no-frozen="false" data-no-8="false">2. 濃巧克力 (可宅配/含酒)</option>
+                <option value="3.香濃黑芝麻" data-no-frozen="false" data-no-8="false">3. 香濃黑芝麻 (可宅配)</option>
+                <option value="4.蜜桃荔枝" data-no-frozen="true" data-no-8="false">4. 蜜桃荔枝 🔥 (限自取)</option>
+                <option value="5.香蕉巧克力" data-no-frozen="false" data-no-8="false">5. 香蕉巧克力 - 香蕉濃 (可宅配)</option>
+                <option value="6.檸檬接骨木" data-no-frozen="true" data-no-8="false">6. 檸檬接骨木 🔥 (極酸/限自取)</option>
+                <option value="7.蘋果柑橘" data-no-frozen="true" data-no-8="false">7. 蘋果柑橘 (限自取)</option>
+                <option value="8.覆盆子巧克力" data-no-frozen="false" data-no-8="false">8. 覆盆子巧克力 🔥 (可宅配)</option>
+                <option value="9.日本濃抹茶" data-no-frozen="true" data-no-8="true">9. 日本濃抹茶 (無8吋/限自取)</option>
+                <option value="10.日本濃焙茶" data-no-frozen="true" data-no-8="true">10. 日本濃焙茶 (無8吋/限自取)</option>
+                <option value="11.鹹蛋黃焦糖" data-no-frozen="false" data-no-8="false">11. 鹹蛋黃焦糖 🔥 (可宅配)</option>
+                <option value="12.百香果柑橘" data-no-frozen="true" data-no-8="false">12. 百香果柑橘 (限自取)</option>
+                <option value="13.巧克力香蕉" data-no-frozen="false" data-no-8="false">13. 巧克力香蕉 - 巧克力濃 (可宅配)</option>
+                <option value="14.經典莓果" data-no-frozen="true" data-no-8="false">14. 經典莓果 🔥 (限自取)</option>
             </select>
         </div>
 
@@ -74,20 +74,15 @@
             <select id="method" required onchange="toggleShipping()">
                 <option value="pickup">店鋪自取 (中西區大智街141號)</option>
                 <option value="delivery">專人外送 (台南指定區域)</option>
-                <option value="frozen">黑貓冷凍宅配 (全台 +$250)</option>
+                <option value="frozen" id="frozen-option">黑貓冷凍宅配 (全台 +$250)</option>
             </select>
         </div>
         
         <div id="pickupSection" class="form-group">
-            <label>自取時段 (約定幾點就幾點，請務必準時)</label>
+            <label>自取時段 (請準時取貨，延誤請私訊告知)</label>
             <select id="pickupTime">
-                <option>15:30</option>
-                <option>16:00</option>
-                <option>16:30</option>
-                <option>17:00</option>
-                <option>17:30</option>
-                <option>18:00</option>
-                <option>18:30</option>
+                <option>15:30</option><option>16:00</option><option>16:30</option>
+                <option>17:00</option><option>17:30</option><option>18:00</option><option>18:30</option>
             </select>
         </div>
         
@@ -110,9 +105,9 @@
         <div class="form-group">
             <label>餐具與蠟燭需求</label>
             <label class="checkbox-label" style="display:block; margin-bottom:10px;">
-                <input type="checkbox" id="freeKit"> 🙋‍♀️ 我需要免費基本刀叉盤組*1 + 金色小蠟燭*1 (須提前勾選)
+                <input type="checkbox" id="freeKit"> 🙋‍♀️ 我需要免費基本刀叉盤組*1 + 金色小蠟燭*1
             </label>
-            <label class="checkbox-label"><input type="checkbox" id="candle" onchange="updateTotal()"> 加購單支金色小蠟燭 (+$5)</label>
+            <label class="checkbox-label"><input type="checkbox" id="candle" onchange="updateTotal()"> 加購金色小蠟燭 (+$5)</label>
             <label class="checkbox-label"><input type="checkbox" id="cutlery" onchange="updateTotal()"> 加購基本刀叉盤組 (+$10)</label>
         </div>
 
@@ -121,21 +116,20 @@
             <div class="terms-box">
                 <p><strong>【關於蛋糕與保存】</strong></p>
                 <ul>
-                    <li>照片僅供參考，裝飾依當天製作為主。</li>
+                    <li>照片僅供參考，實際訂購整模是沒有切的。</li>
                     <li>造型口味固定無客製化（❌寫字 ❌畫圖 ❌無代切服務）。</li>
-                    <li>無添加化學凝固劑，離開冰箱太久容易軟塌。</li>
-                    <li><strong>取貨後請於 1 小時內放進冷藏保存。</strong></li>
+                    <li>無添加化學凝固劑，取貨後請 1 小時內冷藏，三天內食用完畢。</li>
                 </ul>
-                <p><strong>【關於宅配】</strong></p>
+                <p><strong>【關於宅配與配送】</strong></p>
                 <ul>
-                    <li>冷凍宅配運費 $250/顆。兩顆以上運費另計。</li>
-                    <li><strong>宅配有翻車風險，可接受者再下單。</strong></li>
+                    <li>冷凍宅配運費 $250/顆，兩顆以上另計。</li>
+                    <li>宅配有翻車風險，我們會加強固定，可接受者再下單。</li>
                 </ul>
                 <p><strong>【退款規則 (跨行扣$15手續費)】</strong></p>
                 <ul>
-                    <li>取貨日前 10 天取消：全額退款。</li>
-                    <li>取貨日前 5 天取消：退總金額 50%。</li>
-                    <li>取貨日前 3 天：<strong>無法取消也不退款</strong>。</li>
+                    <li>日前 10 天取消：全額退款。</li>
+                    <li>日前 5 天取消：退總額 50%。</li>
+                    <li>日前 3 天取消：不退款。時間寶貴，請三思後訂購。</li>
                 </ul>
             </div>
             <label class="checkbox-label agree-label">
@@ -151,15 +145,15 @@
         <button type="submit" id="submitBtn">建立訂單並前往結帳</button>
     </form>
 
-    <div id="successSection" class="hidden success-box text-center">
-        <h2 style="color: var(--accent-color);">📝 訂單已建立！</h2>
-        <p>您的專屬訂單編號</p>
+    <div id="successSection" class="hidden success-box">
+        <h2>📝 訂單已建立！</h2>
+        <p>您的訂單編號</p>
         <div class="highlight-text" id="displayOrderId"></div>
-        <p style="margin-top: 20px;">應付總額</p>
+        <p>應付總額</p>
         <div class="highlight-text">$<span id="displayOrderTotal"></span></div>
         <p class="note-text">
-            請點擊下方按鈕前往線上結帳。<br>
-            💡 <strong>務必在結帳畫面的「備註欄」填入您的訂單編號</strong>！<br>
+            請點擊下方按鈕結帳。<br>
+            💡 <strong>務必在結帳備註填入訂單編號</strong>，以便對帳製作！
         </p>
         <a href="https://你的PAYUNI或藍新萬用收款連結" target="_blank" class="pay-btn">前往線上結帳</a>
     </div>
