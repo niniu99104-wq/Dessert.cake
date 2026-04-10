@@ -1,3 +1,6 @@
+let originalSize8Option = null;
+let originalFrozenOption = null;
+
 document.addEventListener("DOMContentLoaded", function() {
     const dateInput = document.getElementById('pickupDate');
     const today = new Date();
@@ -5,9 +8,36 @@ document.addEventListener("DOMContentLoaded", function() {
     const minDate = today.toISOString().split('T')[0];
     dateInput.min = minDate;
     dateInput.value = minDate; 
+    
+    // 初始化時存好備用選項
+    originalSize8Option = document.getElementById('size-8');
+    originalFrozenOption = document.querySelector('option[value="frozen"]');
 });
 
-// 防呆機制：檢查口味是否支援 8 吋或宅配
+// 口味變動主控制
+function handleFlavorChange() {
+    checkConstraints();
+    updateImagePreview();
+    updateTotal();
+}
+
+// 📸 根據口味序號顯示對應照片
+function updateImagePreview() {
+    const flavorSelect = document.getElementById('flavor');
+    const previewBox = document.getElementById('flavorPreviewBox');
+    const previewImg = document.getElementById('flavorPreviewImg');
+
+    if (flavorSelect.selectedIndex === 0) {
+        previewBox.classList.add('hidden');
+    } else {
+        // 抓取選項索引值作為檔名 (1-14)
+        let idx = flavorSelect.selectedIndex;
+        previewImg.src = 'cake-' + idx + '.jpg';
+        previewBox.classList.remove('hidden');
+    }
+}
+
+// 霸道防呆：直接拔除不符合的選項
 function checkConstraints() {
     const flavorSelect = document.getElementById('flavor');
     if (flavorSelect.selectedIndex === 0) return;
@@ -16,38 +46,32 @@ function checkConstraints() {
     const no8inch = selectedOption.dataset.no8 === "true";
     const noFrozen = selectedOption.dataset.noFrozen === "true";
     
-    // 處理 8 吋限制
-    const size8Option = document.getElementById('size-8');
     const sizeSelect = document.getElementById('size');
+    const methodSelect = document.getElementById('method');
+
+    // 處理 8 吋
     if (no8inch) {
-        size8Option.disabled = true;
-        if (sizeSelect.value === "960") {
-            alert("不好意思，抹茶/焙茶系列沒辦法做 8 吋喔！幫您重置尺寸。");
-            sizeSelect.value = "";
-        }
+        if (document.getElementById('size-8')) document.getElementById('size-8').remove();
+        if (sizeSelect.value === "960") sizeSelect.value = ""; 
     } else {
-        size8Option.disabled = false;
+        if (!document.getElementById('size-8')) sizeSelect.appendChild(originalSize8Option);
     }
 
-    // 處理宅配限制
-    const methodSelect = document.getElementById('method');
-    const frozenOption = methodSelect.querySelector('option[value="frozen"]');
+    // 處理宅配
+    const currentFrozen = methodSelect.querySelector('option[value="frozen"]');
     if (noFrozen) {
-        frozenOption.disabled = true;
+        if (currentFrozen) currentFrozen.remove();
         if (methodSelect.value === "frozen") {
-            alert("寒天凍或茶系列在退冰時會影響口感，這款不能冷凍宅配喔！幫您切換回自取。");
             methodSelect.value = "pickup";
-            toggleShipping();
+            toggleShipping(); 
         }
     } else {
-        frozenOption.disabled = false;
+        if (!currentFrozen) methodSelect.appendChild(originalFrozenOption);
     }
 }
 
 function toggleShipping() {
     const method = document.getElementById('method').value;
-    
-    // 如果選宅配，強迫地區選擇跳到宅配選項並隱藏自取時間
     if (method === 'frozen') {
         document.getElementById('district').value = "250";
         document.getElementById('pickupSection').classList.add('hidden');
@@ -55,7 +79,6 @@ function toggleShipping() {
     } else {
         document.getElementById('pickupSection').classList.toggle('hidden', method !== 'pickup');
         document.getElementById('deliverySection').classList.toggle('hidden', method !== 'delivery');
-        // 重置地區為中西區避免錯亂
         if (method === 'pickup') {
             document.getElementById('address').value = '';
             document.getElementById('district').value = "0";
@@ -71,7 +94,6 @@ function updateTotal() {
 
     if (method === 'delivery' || method === 'frozen') {
         shipping = parseInt(document.getElementById('district').value);
-        // 免運邏輯 (宅配$250不適用免運)
         if (shipping === 60 && basePrice >= 1000) shipping = 0;
         if (shipping === 120 && basePrice >= 1500) shipping = 0;
     }
@@ -89,9 +111,7 @@ function updateTotal() {
 
 function generateOrderId() {
     const now = new Date();
-    const datePart = now.getFullYear().toString().slice(-2) + 
-                     String(now.getMonth() + 1).padStart(2, '0') + 
-                     String(now.getDate()).padStart(2, '0');
+    const datePart = now.getFullYear().toString().slice(-2) + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0');
     const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
     return `DM${datePart}-${randomPart}`;
 }
@@ -105,15 +125,10 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
     const sizeSelect = document.getElementById('size');
     const sizeText = sizeSelect.options[sizeSelect.selectedIndex].text;
     
-    // 檢查是否有勾選免費餐具，並加註在口味後方
     let flavorText = document.getElementById('flavor').value;
-    if (document.getElementById('freeKit').checked) {
-        flavorText += " (含免費餐具組)";
-    }
+    if (document.getElementById('freeKit').checked) flavorText += " (含免費餐具組)";
     
-    let methodText = '自取';
-    if (document.getElementById('method').value === 'delivery') methodText = '外送';
-    if (document.getElementById('method').value === 'frozen') methodText = '宅配';
+    let methodText = document.getElementById('method').value === 'pickup' ? '自取' : (document.getElementById('method').value === 'frozen' ? '宅配' : '外送');
 
     const newOrderId = generateOrderId();
     const finalTotal = document.getElementById('totalDisplay').innerText;
@@ -129,19 +144,15 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
         size: sizeText,
         name: document.getElementById('name').value,
         phone: document.getElementById('phone').value,
-        address: document.getElementById('method').value === 'pickup' ? '中西區大智街141號(自取)' : document.getElementById('address').value,
+        address: document.getElementById('method').value === 'pickup' ? '自取' : document.getElementById('address').value,
         productAmount: document.getElementById('orderForm').dataset.productAmount || 0,
         shippingFee: document.getElementById('shippingDisplay').innerText,
         total: finalTotal
     };
 
-    // 💡 務必替換為妳部署好的 Google Apps Script 網址
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzGWtdrBfje6IZZNzED9iLtj-SE1B9viKqJmtWmUxOR9zRJuN65xGP7LHnTvfpRCRE/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzYYDZBok2sTcHpBOzwIXRvTs511o3vS79zEeYQAa8o7msQGRR_e83RlepveH8AnVgZ/exec';
 
-    fetch(scriptURL, { 
-        method: 'POST', 
-        body: JSON.stringify(formData) 
-    })
+    fetch(scriptURL, { method: 'POST', body: JSON.stringify(formData) })
     .then(res => {
         document.getElementById('orderForm').classList.add('hidden');
         document.getElementById('displayOrderId').innerText = newOrderId;
@@ -150,7 +161,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
         window.scrollTo({ top: 0, behavior: 'smooth' }); 
     })
     .catch(error => {
-        alert('系統忙碌中，請直接截圖私訊 Line。');
+        alert('系統忙碌中，請聯繫豆媽。');
         submitBtn.disabled = false;
         submitBtn.innerText = "建立訂單並前往結帳";
     });
