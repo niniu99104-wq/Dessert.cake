@@ -2,6 +2,7 @@ let originalSize8Option = null;
 let originalFrozenOption = null;
 
 document.addEventListener("DOMContentLoaded", function() {
+    // 設定日期限制
     const dateInput = document.getElementById('pickupDate');
     const today = new Date();
     today.setDate(today.getDate() + 5);
@@ -37,42 +38,44 @@ function checkConstraints() {
     if (flavorSelect.selectedIndex === 0) return;
     
     const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
-    const no8inch = selectedOption.dataset.no8 === "true";
-    const noFrozen = selectedOption.dataset.noFrozen === "true";
+    
+    // 強制讀取標籤屬性
+    const no8inch = selectedOption.getAttribute("data-no-8") === "true";
+    const noFrozen = selectedOption.getAttribute("data-no-frozen") === "true";
     
     const sizeSelect = document.getElementById('size');
     const methodSelect = document.getElementById('method');
 
-    // 強勢處理 8 吋：如果不能做就直接從 DOM 移除
+    // 🛑 霸道拔除 8 吋：安靜消失，不跳通知
     if (no8inch) {
         if (document.getElementById('size-8')) {
             document.getElementById('size-8').remove();
         }
+        // 如果客人本來選了8吋才換口味，我們默默幫他清空尺寸
         if (sizeSelect.value === "960") {
-            alert("不好意思，此款口味無法製作 8 吋，請重新選擇尺寸喔。");
             sizeSelect.value = ""; 
             updateTotal();
         }
     } else {
-        // 如果原本被拔掉，現在要裝回來
+        // 裝回來
         if (!document.getElementById('size-8')) {
             sizeSelect.appendChild(originalSize8Option);
         }
     }
 
-    // 強勢處理宅配：如果不能寄就直接從 DOM 移除
+    // 🛑 霸道拔除宅配：安靜消失，不跳通知
     const currentFrozen = document.getElementById('frozen-option');
     if (noFrozen) {
         if (currentFrozen) {
             currentFrozen.remove();
         }
+        // 如果客人本來選了宅配才換口味，我們默默幫他切回自取
         if (methodSelect.value === "frozen") {
-            alert("寒天凍/茶系列建議自取以維持口感，此款不支援宅配喔，幫您切換回自取。");
             methodSelect.value = "pickup";
             toggleShipping(); 
         }
     } else {
-        // 如果原本被拔掉，現在要裝回來
+        // 裝回來
         if (!document.getElementById('frozen-option')) {
             methodSelect.appendChild(originalFrozenOption);
         }
@@ -113,7 +116,8 @@ function updateTotal() {
     const total = basePrice + addon1 + addon2 + shipping;
     document.getElementById('shippingDisplay').innerText = shipping;
     document.getElementById('totalDisplay').innerText = total;
-    document.getElementById('orderForm').dataset.productAmount = basePrice + addon1 + addon2;
+    
+    document.getElementById('orderForm').setAttribute('data-product-amount', basePrice + addon1 + addon2);
 }
 
 function generateOrderId() {
@@ -147,13 +151,13 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
         address: document.getElementById('method').value === 'pickup' ? '自取' : document.getElementById('address').value,
         freeKit: document.getElementById('freeKit').checked ? '是' : '否',
         addons: addonsList.join('、') || '無',
-        productAmount: document.getElementById('orderForm').dataset.productAmount,
+        productAmount: document.getElementById('orderForm').getAttribute('data-product-amount') || 0,
         shippingFee: document.getElementById('shippingDisplay').innerText,
         total: document.getElementById('totalDisplay').innerText
     };
 
-    // 💡 這裡換成妳部署好的 Google Apps Script URL
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzYYDZBok2sTcHpBOzwIXRvTs511o3vS79zEeYQAa8o7msQGRR_e83RlepveH8AnVgZ/exec';
+    // 💡 注意：請確認這裡有換成妳的 Google Apps Script URL！
+    const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
 
     fetch(scriptURL, { method: 'POST', body: JSON.stringify(formData) })
     .then(() => {
@@ -164,7 +168,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
         window.scrollTo(0, 0); 
     })
     .catch(() => {
-        alert('系統忙碌中，請聯繫豆媽。');
+        alert('系統忙碌中，請直接截圖私訊豆媽。');
         submitBtn.disabled = false;
         submitBtn.innerText = "建立訂單並前往結帳";
     });
