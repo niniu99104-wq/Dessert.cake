@@ -28,39 +28,95 @@
             <input type="tel" id="phone" required placeholder="方便聯繫您的電話">
         </div>
         
-        <div class="form-group">
+<div class="form-group">
             <label>生乳酪口味</label>
-            <input type="text" id="flavor" required placeholder="例如：原味、季節限定...">
+            <select id="flavor" required onchange="checkConstraints(); updateTotal()">
+                <option value="" disabled selected>請選擇口味</option>
+                <option value="1.焦糖榛果" data-no-frozen="false" data-no-8="false">1. 焦糖榛果生乳酪 (堅果香)</option>
+                <option value="2.濃巧克力" data-no-frozen="false" data-no-8="false">2. 濃巧克力生乳酪 (偏苦甜/含酒)</option>
+                <option value="3.香濃黑芝麻" data-no-frozen="false" data-no-8="false">3. 香濃黑芝麻生乳酪 (純樸無華)</option>
+                <option value="4.蜜桃荔枝" data-no-frozen="true" data-no-8="false">4. 蜜桃荔枝生乳酪 🔥熱門 (限自取)</option>
+                <option value="5.香蕉巧克力" data-no-frozen="false" data-no-8="false">5. 香蕉巧克力生乳酪 (香蕉專屬)</option>
+                <option value="6.檸檬接骨木" data-no-frozen="true" data-no-8="false">6. 檸檬接骨木生乳酪 🔥熱門 (極酸/限自取)</option>
+                <option value="7.蘋果柑橘" data-no-frozen="true" data-no-8="false">7. 蘋果柑橘生乳酪 (清爽/限自取)</option>
+                <option value="8.覆盆子巧克力" data-no-frozen="false" data-no-8="false">8. 覆盆子巧克力生乳酪 🔥熱門 (酸甜)</option>
+                <option value="9.日本濃抹茶" data-no-frozen="true" data-no-8="true">9. 日本濃抹茶生乳酪 (無8吋/限自取)</option>
+                <option value="10.日本濃焙茶" data-no-frozen="true" data-no-8="true">10. 日本濃焙茶生乳酪 (無8吋/限自取)</option>
+                <option value="11.鹹蛋黃焦糖" data-no-frozen="false" data-no-8="false">11. 鹹蛋黃焦糖生乳酪 🔥熱門 (鹹甜)</option>
+                <option value="12.百香果柑橘" data-no-frozen="true" data-no-8="false">12. 百香果柑橘生乳酪 (微酸/限自取)</option>
+                <option value="13.巧克力香蕉" data-no-frozen="false" data-no-8="false">13. 巧克力香蕉生乳酪 (巧克力專屬)</option>
+                <option value="14.莓果" data-no-frozen="true" data-no-8="false">14. 莓果生乳酪 🔥熱門 (清爽/限自取)</option>
+            </select>
         </div>
+
         <div class="form-group">
             <label>選擇尺寸</label>
             <select id="size" required onchange="updateTotal()">
-                <option value="" disabled selected>請選擇尺寸</option>
-                <option value="600">日光・小聚 (5吋) - $600</option>
-                <option value="720">溫柔・時光 (6吋) - $720</option>
-                <option value="960">慶典・盛宴 (8吋) - $960</option>
+                <option value="" disabled selected>請先選擇口味</option>
+                <option value="600" class="size-option">5吋 ($600) - 約4-5人</option>
+                <option value="720" class="size-option">6吋 ($720) - 約5-6人</option>
+                <option value="960" class="size-option" id="size-8">8吋 ($960) - 約7-8人</option>
             </select>
         </div>
 
         <div class="product-gallery">
-            <div class="gallery-items">
-                <div class="gallery-item">
-                    <img src="圖片網址請貼這" alt="5吋">
-                    <div class="item-info">
-                        <span class="item-title">5吋 (3-4人)</span>
-                    </div>
+            <label style="margin-bottom: 10px;">👇 左右滑動查看口味 (實際訂購不代切)</label>
+            <div class="gallery-items" style="display: flex; overflow-x: auto; gap: 15px; padding-bottom: 10px;">
+                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
+                    <img src="01.jpg" alt="焦糖榛果">
+                    <div class="item-info"><span class="item-title">1. 焦糖榛果</span><span class="item-desc" style="font-size:0.8rem; color:#a0938a;">可宅配</span></div>
                 </div>
-                <div class="gallery-item">
-                    <img src="圖片網址請貼這" alt="6吋">
-                    <div class="item-info">
-                        <span class="item-title">6吋 (5-6人)</span>
-                    </div>
+                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
+                    <img src="02.jpg" alt="濃巧克力">
+                    <div class="item-info"><span class="item-title">2. 濃巧克力</span><span class="item-desc" style="font-size:0.8rem; color:#a0938a;">可宅配</span></div>
                 </div>
-                <div class="gallery-item">
-                    <img src="圖片網址請貼這" alt="8吋">
-                    <div class="item-info">
-                        <span class="item-title">8吋 (7-8人)</span>
-                    </div>
+                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
+                    <img src="03.jpg" alt="香濃黑芝麻">
+                    <div class="item-info"><span class="item-title">3. 香濃黑芝麻</span><span class="item-desc" style="font-size:0.8rem; color:#a0938a;">可宅配</span></div>
+                </div>
+                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
+                    <img src="04.jpg" alt="蜜桃荔枝">
+                    <div class="item-info"><span class="item-title">4. 蜜桃荔枝 🔥</span><span class="item-desc" style="font-size:0.8rem; color:#d9534f;">限自取</span></div>
+                </div>
+                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
+                    <img src="05.jpg" alt="香蕉巧克力">
+                    <div class="item-info"><span class="item-title">5. 香蕉巧克力</span><span class="item-desc" style="font-size:0.8rem; color:#a0938a;">可宅配</span></div>
+                </div>
+                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
+                    <img src="06.jpg" alt="檸檬接骨木">
+                    <div class="item-info"><span class="item-title">6. 檸檬接骨木 🔥</span><span class="item-desc" style="font-size:0.8rem; color:#d9534f;">極酸/限自取</span></div>
+                </div>
+                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
+                    <img src="07.jpg" alt="蘋果柑橘">
+                    <div class="item-info"><span class="item-title">7. 蘋果柑橘</span><span class="item-desc" style="font-size:0.8rem; color:#d9534f;">限自取</span></div>
+                </div>
+                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
+                    <img src="08.jpg" alt="覆盆子巧克力">
+                    <div class="item-info"><span class="item-title">8. 覆盆子巧克力 🔥</span><span class="item-desc" style="font-size:0.8rem; color:#a0938a;">可宅配</span></div>
+                </div>
+                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
+                    <img src="09.jpg" alt="日本濃抹茶">
+                    <div class="item-info"><span class="item-title">9. 日本濃抹茶</span><span class="item-desc" style="font-size:0.8rem; color:#d9534f;">無8吋/限自取</span></div>
+                </div>
+                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
+                    <img src="10.jpg" alt="日本濃焙茶">
+                    <div class="item-info"><span class="item-title">10. 日本濃焙茶</span><span class="item-desc" style="font-size:0.8rem; color:#d9534f;">無8吋/限自取</span></div>
+                </div>
+                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
+                    <img src="11.jpg" alt="鹹蛋黃焦糖">
+                    <div class="item-info"><span class="item-title">11. 鹹蛋黃焦糖 🔥</span><span class="item-desc" style="font-size:0.8rem; color:#a0938a;">可宅配</span></div>
+                </div>
+                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
+                    <img src="12.jpg" alt="百香果柑橘">
+                    <div class="item-info"><span class="item-title">12. 百香果柑橘</span><span class="item-desc" style="font-size:0.8rem; color:#d9534f;">限自取</span></div>
+                </div>
+                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
+                    <img src="13.jpg" alt="巧克力香蕉">
+                    <div class="item-info"><span class="item-title">13. 巧克力香蕉</span><span class="item-desc" style="font-size:0.8rem; color:#a0938a;">可宅配</span></div>
+                </div>
+                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
+                    <img src="14.jpg" alt="經典莓果">
+                    <div class="item-info"><span class="item-title">14. 經典莓果 🔥</span><span class="item-desc" style="font-size:0.8rem; color:#d9534f;">限自取</span></div>
                 </div>
             </div>
         </div>
