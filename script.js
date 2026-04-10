@@ -2,14 +2,13 @@ let originalSize8Option = null;
 let originalFrozenOption = null;
 
 document.addEventListener("DOMContentLoaded", function() {
-    // 設定日期限制
     const dateInput = document.getElementById('pickupDate');
     const today = new Date();
     today.setDate(today.getDate() + 5);
     dateInput.min = today.toISOString().split('T')[0];
     dateInput.value = today.toISOString().split('T')[0];
     
-    // 預存選項備用
+    // 預存 8 吋和宅配選項，方便之後拔掉與裝回
     originalSize8Option = document.getElementById('size-8');
     originalFrozenOption = document.getElementById('frozen-option');
 });
@@ -28,7 +27,6 @@ function updateImagePreview() {
     if (flavorSelect.selectedIndex === 0) {
         previewBox.classList.add('hidden');
     } else {
-        // 直接對應 cake-1.jpg ~ cake-14.jpg
         previewImg.src = 'cake-' + flavorSelect.selectedIndex + '.jpg';
         previewBox.classList.remove('hidden');
     }
@@ -45,22 +43,39 @@ function checkConstraints() {
     const sizeSelect = document.getElementById('size');
     const methodSelect = document.getElementById('method');
 
+    // 強勢處理 8 吋：如果不能做就直接從 DOM 移除
     if (no8inch) {
-        if (document.getElementById('size-8')) document.getElementById('size-8').remove();
-        if (sizeSelect.value === "960") sizeSelect.value = ""; 
+        if (document.getElementById('size-8')) {
+            document.getElementById('size-8').remove();
+        }
+        if (sizeSelect.value === "960") {
+            alert("不好意思，此款口味無法製作 8 吋，請重新選擇尺寸喔。");
+            sizeSelect.value = ""; 
+            updateTotal();
+        }
     } else {
-        if (!document.getElementById('size-8')) sizeSelect.appendChild(originalSize8Option);
+        // 如果原本被拔掉，現在要裝回來
+        if (!document.getElementById('size-8')) {
+            sizeSelect.appendChild(originalSize8Option);
+        }
     }
 
+    // 強勢處理宅配：如果不能寄就直接從 DOM 移除
     const currentFrozen = document.getElementById('frozen-option');
     if (noFrozen) {
-        if (currentFrozen) currentFrozen.remove();
+        if (currentFrozen) {
+            currentFrozen.remove();
+        }
         if (methodSelect.value === "frozen") {
+            alert("寒天凍/茶系列建議自取以維持口感，此款不支援宅配喔，幫您切換回自取。");
             methodSelect.value = "pickup";
             toggleShipping(); 
         }
     } else {
-        if (!document.getElementById('frozen-option')) methodSelect.appendChild(originalFrozenOption);
+        // 如果原本被拔掉，現在要裝回來
+        if (!document.getElementById('frozen-option')) {
+            methodSelect.appendChild(originalFrozenOption);
+        }
     }
 }
 
@@ -114,8 +129,6 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
     submitBtn.disabled = true;
 
     const newOrderId = generateOrderId();
-    const finalTotal = document.getElementById('totalDisplay').innerText;
-    
     let addonsList = [];
     if (document.getElementById('candle').checked) addonsList.push("加購小蠟燭");
     if (document.getElementById('cutlery').checked) addonsList.push("加購餐具組");
@@ -136,16 +149,17 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
         addons: addonsList.join('、') || '無',
         productAmount: document.getElementById('orderForm').dataset.productAmount,
         shippingFee: document.getElementById('shippingDisplay').innerText,
-        total: finalTotal
+        total: document.getElementById('totalDisplay').innerText
     };
 
-    const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
+    // 💡 這裡換成妳部署好的 Google Apps Script URL
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzYYDZBok2sTcHpBOzwIXRvTs511o3vS79zEeYQAa8o7msQGRR_e83RlepveH8AnVgZ/exec';
 
     fetch(scriptURL, { method: 'POST', body: JSON.stringify(formData) })
     .then(() => {
         document.getElementById('orderForm').classList.add('hidden');
         document.getElementById('displayOrderId').innerText = newOrderId;
-        document.getElementById('displayOrderTotal').innerText = finalTotal;
+        document.getElementById('displayOrderTotal').innerText = document.getElementById('totalDisplay').innerText;
         document.getElementById('successSection').classList.remove('hidden');
         window.scrollTo(0, 0); 
     })
