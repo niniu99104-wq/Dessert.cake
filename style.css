@@ -1,5 +1,4 @@
 :root {
-    /* 韓系奶茶色票設定 */
     --bg-color: #fdfaf6;
     --accent-color: #8e7d72;
     --text-color: #5a524d;
@@ -116,15 +115,19 @@ button {
     font-family: 'Noto Sans TC', sans-serif;
 }
 
-button:hover {
-    background-color: #7a6a5f;
-}
+button:hover { background-color: #7a6a5f; }
+button:disabled { background-color: #c4bbb4; cursor: not-allowed; }
 
-button:disabled {
-    background-color: #c4bbb4;
-    cursor: not-allowed;
-}
+.hidden { display: none; }
 
-.hidden { 
-    display: none; 
+/* 結帳成功畫面專屬樣式 */
+.text-center { text-align: center; }
+.success-box { padding: 30px 20px; }
+.highlight-text { font-size: 1.6rem; color: var(--accent-color); font-weight: 700; margin: 10px 0; letter-spacing: 1px;}
+.pay-btn {
+    display: block; width: 100%; padding: 15px; background-color: #5a524d; color: white;
+    border-radius: 10px; font-size: 1.1rem; font-weight: 700; text-decoration: none; margin-top: 25px; transition: 0.3s;
+    box-sizing: border-box;
 }
+.pay-btn:hover { background-color: #433d39; }
+.note-text { font-size: 0.95rem; color: #a0938a; margin-top: 15px; line-height: 1.6; }
