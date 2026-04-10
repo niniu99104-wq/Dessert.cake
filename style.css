@@ -39,7 +39,6 @@ p.subtitle {
     color: #a0938a;
 }
 
-/* 品牌宣言區 */
 .intro-box {
     background-color: #f4efea;
     padding: 15px 20px;
@@ -48,22 +47,10 @@ p.subtitle {
     border-left: 4px solid var(--accent-color);
 }
 
-.intro-box h3 {
-    margin: 0 0 8px 0;
-    font-size: 1.1rem;
-    color: var(--accent-color);
-    font-family: 'Noto Serif TC', serif;
-}
+.intro-box h3 { margin: 0 0 8px 0; font-size: 1.1rem; color: var(--accent-color); font-family: 'Noto Serif TC', serif; }
+.intro-box p { margin: 0; font-size: 0.9rem; color: #6a605a; }
 
-.intro-box p {
-    margin: 0;
-    font-size: 0.9rem;
-    color: #6a605a;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
+.form-group { margin-bottom: 20px; }
 
 label {
     display: block;
@@ -73,22 +60,7 @@ label {
     color: var(--accent-color);
 }
 
-.checkbox-label {
-    display: inline-flex;
-    align-items: center;
-    font-weight: 400;
-    color: var(--text-color);
-    margin-right: 15px;
-    cursor: pointer;
-}
-
-.checkbox-label input {
-    width: auto;
-    margin-right: 8px;
-    accent-color: var(--accent-color);
-}
-
-input[type="text"], input[type="tel"], input[type="date"], select {
+input, select {
     width: 100%;
     padding: 12px;
     border: 1px solid var(--input-border);
@@ -97,82 +69,57 @@ input[type="text"], input[type="tel"], input[type="date"], select {
     color: var(--text-color);
     box-sizing: border-box;
     background-color: #fff;
-    font-family: 'Noto Sans TC', sans-serif;
 }
 
-input:focus, select:focus {
-    outline: none;
-    border-color: var(--accent-color);
+/* ✨ 動態照片預覽區：優化為清晰大圖 */
+.preview-box {
+    margin-bottom: 25px;
+    border: 1px solid var(--input-border);
+    border-radius: 15px;
+    padding: 12px;
+    background: #fff;
+    text-align: center;
+    animation: fadeIn 0.5s ease;
 }
 
-/* 圖片展示區 */
-.product-gallery { margin-bottom: 25px; }
-.gallery-items { display: flex; gap: 10px; justify-content: space-between; }
-.gallery-item { width: 32%; background: #fff; border: 1px solid var(--input-border); border-radius: 8px; overflow: hidden; box-sizing: border-box;}
-.gallery-item img { width: 100%; height: 100px; object-fit: cover; display: block; }
-.item-info { padding: 8px 0; text-align: center; }
-.item-title { display: block; font-size: 0.85rem; color: var(--text-color); font-weight: 500; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* 條款區塊設計 */
-.terms-container {
-    margin-top: 30px;
-    margin-bottom: 20px;
+.preview-box img {
+    width: 100%;
+    max-height: 450px; /* 加大照片高度限制 */
+    object-fit: contain; /* 完整呈現照片不裁切 */
+    border-radius: 10px;
+    display: block;
 }
+
+.preview-hint { margin: 10px 0 0 0; font-size: 0.85rem; color: #a0938a; }
+
 .terms-box {
     background-color: #faf8f5;
     border: 1px solid var(--input-border);
     border-radius: 10px;
     padding: 15px;
-    max-height: 200px;
+    max-height: 180px;
     overflow-y: auto;
     font-size: 0.85rem;
     color: #6a605a;
     margin-bottom: 15px;
 }
-.terms-box p { margin: 10px 0 5px 0; color: var(--accent-color); }
-.terms-box p:first-child { margin-top: 0; }
-.terms-box ul { margin: 0; padding-left: 20px; }
-.terms-box li { margin-bottom: 4px; }
-.agree-label { color: var(--accent-color); font-size: 0.95rem; }
 
-.total-section {
-    border-top: 1px dashed var(--input-border);
-    margin-top: 30px;
-    padding-top: 20px;
-    text-align: right;
-}
-
-.total-section p { margin: 5px 0; }
+.total-section { border-top: 1px dashed var(--input-border); margin-top: 30px; padding-top: 20px; text-align: right; }
 .total-amount { font-size: 1.5rem; font-weight: 700; color: var(--accent-color); }
 
 button {
-    width: 100%;
-    padding: 15px;
-    background-color: var(--accent-color);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s;
-    font-family: 'Noto Sans TC', sans-serif;
+    width: 100%; padding: 15px; background-color: var(--accent-color); color: white;
+    border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-top: 20px;
 }
 
-button:hover { background-color: #7a6a5f; }
-button:disabled { background-color: #c4bbb4; cursor: not-allowed; }
+.hidden { display: none !important; }
 
-.hidden { display: none; }
-
-/* 結帳成功畫面專屬樣式 */
-.text-center { text-align: center; }
-.success-box { padding: 30px 20px; }
-.highlight-text { font-size: 1.6rem; color: var(--accent-color); font-weight: 700; margin: 10px 0; letter-spacing: 1px;}
+/* 成功畫面 */
+.success-box { padding: 30px 20px; text-align: center; }
+.highlight-text { font-size: 1.6rem; color: var(--accent-color); font-weight: 700; margin: 10px 0; }
 .pay-btn {
     display: block; width: 100%; padding: 15px; background-color: #5a524d; color: white;
-    border-radius: 10px; font-size: 1.1rem; font-weight: 700; text-decoration: none; margin-top: 25px; transition: 0.3s;
-    box-sizing: border-box;
+    border-radius: 10px; font-size: 1.1rem; font-weight: 700; text-decoration: none; margin-top: 25px;
 }
-.pay-btn:hover { background-color: #433d39; }
-.note-text { font-size: 0.95rem; color: #a0938a; margin-top: 15px; line-height: 1.6; }
