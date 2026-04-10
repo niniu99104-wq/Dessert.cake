@@ -13,6 +13,11 @@
     <h1>豆媽手作</h1>
     <p class="subtitle">每一份甜點，都是照顧出來的能量</p>
 
+    <div class="intro-box">
+        <h3>生乳酪蛋糕系列 /</h3>
+        <p>我們的餅乾底，不是用外面一般市售的消化餅乾。整個蛋糕從裡到外、從上到下都是我們自己親手做的！吃了就知道啦～</p>
+    </div>
+
     <form id="orderForm" data-product-amount="0">
         <div class="form-group">
             <label>訂購人姓名</label>
@@ -31,14 +36,37 @@
             <label>選擇尺寸</label>
             <select id="size" required onchange="updateTotal()">
                 <option value="" disabled selected>請選擇尺寸</option>
-                <option value="600">5 吋生乳酪 ($600)</option>
-                <option value="720">6 吋生乳酪 ($720)</option>
-                <option value="960">8 吋生乳酪 ($960)</option>
+                <option value="600">日光・小聚 (5吋) - $600</option>
+                <option value="720">溫柔・時光 (6吋) - $720</option>
+                <option value="960">慶典・盛宴 (8吋) - $960</option>
             </select>
+        </div>
+
+        <div class="product-gallery">
+            <div class="gallery-items">
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/150/fdfaf6/8e7d72?text=5+inch" alt="5吋">
+                    <div class="item-info">
+                        <span class="item-title">5吋 (3-4人)</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/150/fdfaf6/8e7d72?text=6+inch" alt="6吋">
+                    <div class="item-info">
+                        <span class="item-title">6吋 (5-6人)</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/150/fdfaf6/8e7d72?text=8+inch" alt="8吋">
+                    <div class="item-info">
+                        <span class="item-title">8吋 (7-8人)</span>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <div class="form-group">
-            <label>取貨/送達日期 (需提前5天預訂)</label>
+            <label>取貨/送達日期 (需提前5-10天預訂)</label>
             <input type="date" id="pickupDate" required>
         </div>
         
@@ -47,11 +75,12 @@
             <select id="method" required onchange="toggleShipping()">
                 <option value="pickup">店鋪自取 (中西區大智街141號)</option>
                 <option value="delivery">專人外送 (台南指定區域)</option>
+                <option value="frozen">黑貓冷凍宅配 (全台 +$250)</option>
             </select>
         </div>
         
         <div id="pickupSection" class="form-group">
-            <label>自取時段 (15:30~18:30)</label>
+            <label>自取時段 (約定幾點就幾點，請務必準時)</label>
             <select id="pickupTime">
                 <option>15:30</option>
                 <option>16:00</option>
@@ -65,11 +94,12 @@
         
         <div id="deliverySection" class="hidden">
             <div class="form-group">
-                <label>配送行政區</label>
+                <label>配送行政區 / 宅配請填完整地址</label>
                 <select id="district" onchange="updateTotal()">
                     <option value="0">中西區 ($0)</option>
                     <option value="60">東區/北區/南區/安平 ($60 - 滿千免運)</option>
                     <option value="120">永康/仁德/安南 ($120 - 滿千五免運)</option>
+                    <option value="250">其他縣市冷凍宅配 ($250)</option>
                 </select>
             </div>
             <div class="form-group">
@@ -79,9 +109,42 @@
         </div>
         
         <div class="form-group">
-            <label>加購項目</label>
-            <label class="checkbox-label"><input type="checkbox" id="candle" onchange="updateTotal()"> 造型蠟燭 (+$10)</label>
-            <label class="checkbox-label"><input type="checkbox" id="cutlery" onchange="updateTotal()"> 額外刀叉盤 6 人份 (+$20)</label>
+            <label>餐具與蠟燭需求</label>
+            <label class="checkbox-label" style="display:block; margin-bottom:10px;">
+                <input type="checkbox" id="freeKit"> 🙋‍♀️ 我需要免費基本刀叉盤組*1 + 金色小蠟燭*1 (須提前勾選)
+            </label>
+            <label class="checkbox-label"><input type="checkbox" id="candle" onchange="updateTotal()"> 加購單支金色小蠟燭 (+$5)</label>
+            <label class="checkbox-label"><input type="checkbox" id="cutlery" onchange="updateTotal()"> 加購基本刀叉盤組 (+$10)</label>
+        </div>
+
+        <div class="terms-container">
+            <label>📜 訂購與退款須知 (下單視同同意)</label>
+            <div class="terms-box">
+                <p><strong>【關於蛋糕與保存】</strong></p>
+                <ul>
+                    <li>照片僅供參考，裝飾依當天製作為主。</li>
+                    <li>造型口味固定無客製化（❌寫字 ❌畫圖 ❌更改內容層次，無代切服務）。</li>
+                    <li>無添加其他化學凝固劑，離開冰箱太久容易軟塌。</li>
+                    <li><strong>取貨後請確保 30分~1小時內放進冰箱冷藏保存。</strong></li>
+                    <li>六吋以上蛋糕不附提袋，可自備袋子（大小約 25*25*高20）。</li>
+                </ul>
+                <p><strong>【關於宅配】</strong></p>
+                <ul>
+                    <li>冷凍宅配運費 $250/顆，兩顆以上合寄運費另計。疫情期間物流隨時可能不配送。</li>
+                    <li>為求環保，宅配最外盒會使用二手乾淨紙箱（內部蛋糕盒為全新）。</li>
+                    <li><strong>宅配有翻車風險，我們會加強固定但無法完全避免，可接受者再下單。</strong>收到蛋糕請第一時間拆開拍照回報，並馬上冷藏。</li>
+                </ul>
+                <p><strong>【退款規則 (跨行扣$15手續費)】</strong></p>
+                <ul>
+                    <li>希望大家再三確定後再訂購，時間寶貴，不要完成訂購後又浪費彼此時間取消。</li>
+                    <li>取貨日前 10 天取消：全額退款。</li>
+                    <li>取貨日前 5 天取消：退總金額 50%。</li>
+                    <li>取貨日前 3 天：<strong>無法取消也不退款</strong>，可更換時間（若仍無法配合，轉為儲值金不退款）。</li>
+                </ul>
+            </div>
+            <label class="checkbox-label agree-label">
+                <input type="checkbox" id="agreeTerms" required> <strong>我已詳細閱讀並同意以上須知，確認後再訂購！</strong>
+            </label>
         </div>
         
         <div class="total-section">
@@ -96,15 +159,13 @@
         <h2 style="color: var(--accent-color);">📝 訂單已建立！</h2>
         <p>您的專屬訂單編號</p>
         <div class="highlight-text" id="displayOrderId"></div>
-        
         <p style="margin-top: 20px;">應付總額</p>
         <div class="highlight-text">$<span id="displayOrderTotal"></span></div>
-        
         <p class="note-text">
-            請點擊下方按鈕前往線上刷卡/轉帳。<br>
-            💡 <strong>請務必在結帳畫面的「備註欄」填入您的訂單編號</strong>，以便我們為您快速對帳安排製作喔！
+            請點擊下方按鈕前往線上結帳。<br>
+            💡 <strong>請務必在結帳畫面的「備註欄」填入您的訂單編號</strong>！<br>
+            ⚠️ 若有選用宅配服務，請記得截圖私訊我們確認細節喔。
         </p>
-        
         <a href="https://你的PAYUNI或藍新萬用收款連結" target="_blank" class="pay-btn">前往線上結帳</a>
     </div>
 </div>
