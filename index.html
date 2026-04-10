@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>豆媽手作｜生乳酪蛋糕訂購</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>豆媽手作</h1>
+    <p class="subtitle">每一份甜點，都是照顧出來的能量</p>
+
+    <form id="orderForm" data-product-amount="0">
+        <div class="form-group">
+            <label>訂購人姓名</label>
+            <input type="text" id="name" required placeholder="如何稱呼您？">
+        </div>
+
+        <div class="form-group">
+            <label>電話</label>
+            <input type="tel" id="phone" required placeholder="方便聯繫您的電話">
+        </div>
+
+        <div class="form-group">
+            <label>生乳酪口味</label>
+            <input type="text" id="flavor" required placeholder="例如：原味、季節限定...">
+        </div>
+
+        <div class="form-group">
+            <label>選擇尺寸</label>
+            <select id="size" required onchange="updateTotal()">
+                <option value="" disabled selected>請選擇尺寸</option>
+                <option value="600">5 吋生乳酪 ($600)</option>
+                <option value="720">6 吋生乳酪 ($720)</option>
+                <option value="960">8 吋生乳酪 ($960)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>取貨/送達日期 (需提前5天預訂)</label>
+            <input type="date" id="pickupDate" required>
+        </div>
+
+        <div class="form-group">
+            <label>收貨方式</label>
+            <select id="method" required onchange="toggleShipping()">
+                <option value="pickup">店鋪自取 (中西區大智街141號)</option>
+                <option value="delivery">專人外送 (台南指定區域)</option>
+            </select>
+        </div>
+
+        <div id="pickupSection" class="form-group">
+            <label>自取時段 (15:30~18:30)</label>
+            <select id="pickupTime">
+                <option>15:30</option>
+                <option>16:00</option>
+                <option>16:30</option>
+                <option>17:00</option>
+                <option>17:30</option>
+                <option>18:00</option>
+                <option>18:30</option>
+            </select>
+        </div>
+
+        <div id="deliverySection" class="hidden">
+            <div class="form-group">
+                <label>配送行政區</label>
+                <select id="district" onchange="updateTotal()">
+                    <option value="0">中西區 ($0)</option>
+                    <option value="60">東區/北區/南區/安平 ($60 - 滿千免運)</option>
+                    <option value="120">永康/仁德/安南 ($120 - 滿千五免運)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>詳細地址</label>
+                <input type="text" id="address" placeholder="請輸入完整地址">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>加購項目</label>
+            <label class="checkbox-label"><input type="checkbox" id="candle" onchange="updateTotal()"> 造型蠟燭 (+$10)</label>
+            <label class="checkbox-label"><input type="checkbox" id="cutlery" onchange="updateTotal()"> 額外刀叉盤 4 人份 (+$10)</label>
+        </div>
+
+        <div class="total-section">
+            <p>運費：$<span id="shippingDisplay">0</span></p>
+            <p>應付總額：<span class="total-amount">$<span id="totalDisplay">0</span></span></p>
+        </div>
+
+        <button type="submit" id="submitBtn">確認下單</button>
+    </form>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
