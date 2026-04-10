@@ -15,38 +15,38 @@
 
     <div class="intro-box">
         <h3>生乳酪蛋糕系列 /</h3>
-        <p>酥菠蘿餅乾底是我們親自手作，非市售消化餅。</p>
+        <p>酥菠蘿餅乾底是我們親自手作，非市售消化餅。<p>
         <p>整個蛋糕從裡到外都是誠意，吃了就知道！</p>
     </div>
 
     <form id="orderForm" data-product-amount="0">
         <div class="form-group">
-            <label>訂購人姓名</label>
+            <label>訂購人姓名（請填全名）</label>
             <input type="text" id="name" required placeholder="如何稱呼您？">
         </div>
         <div class="form-group">
-            <label>電話</label>
+            <label>聯絡電話</label>
             <input type="tel" id="phone" required placeholder="方便聯繫您的電話">
         </div>
         
         <div class="form-group">
-            <label>生乳酪口味</label>
+            <label>生乳酪蛋糕口味</label>
             <select id="flavor" required onchange="handleFlavorChange()">
                 <option value="" disabled selected>請選擇口味</option>
-                <option value="1.焦糖榛果" data-no-frozen="false" data-no-8="false">1. 焦糖榛果 (可宅配)</option>
-                <option value="2.濃巧克力" data-no-frozen="false" data-no-8="false">2. 濃巧克力 (可宅配/含酒)</option>
-                <option value="3.香濃黑芝麻" data-no-frozen="false" data-no-8="false">3. 香濃黑芝麻 (可宅配)</option>
-                <option value="4.蜜桃荔枝" data-no-frozen="true" data-no-8="false">4. 蜜桃荔枝 🔥 (限自取/外送)</option>
-                <option value="5.香蕉巧克力" data-no-frozen="false" data-no-8="false">5. 香蕉巧克力 - 香蕉濃 (可宅配)</option>
-                <option value="6.檸檬接骨木" data-no-frozen="true" data-no-8="false">6. 檸檬接骨木 - 喜歡酸的很推 🔥 (限自取/外送)</option>
-                <option value="7.蘋果柑橘" data-no-frozen="true" data-no-8="false">7. 蘋果柑橘 (限自取/外送)</option>
-                <option value="8.覆盆子巧克力" data-no-frozen="false" data-no-8="false">8. 覆盆子巧克力 🔥 (可宅配)</option>
-                <option value="9.日本濃抹茶" data-no-frozen="true" data-no-8="true">9. 日本濃抹茶 (限自取/外送)</option>
-                <option value="10.日本濃焙茶" data-no-frozen="true" data-no-8="true">10. 日本濃焙茶 (限自取/外送)</option>
-                <option value="11.鹹蛋黃焦糖" data-no-frozen="false" data-no-8="false">11. 鹹蛋黃焦糖 - 鹹甜鹹甜 🔥 (可宅配)</option>
-                <option value="12.百香果柑橘" data-no-frozen="true" data-no-8="false">12. 百香果柑橘 (限自取)</option>
-                <option value="13.巧克力香蕉" data-no-frozen="false" data-no-8="false">13. 巧克力香蕉 - 巧克力濃 (可宅配)</option>
-                <option value="14.經典莓果" data-no-frozen="true" data-no-8="false">14. 經典莓果 🔥 (限自取/外送)</option>
+                <option value="1.焦糖榛果生乳酪" data-no-frozen="false" data-no-8="false">1. 焦糖榛果生乳酪 (可宅配)</option>
+                <option value="2.濃巧克力生乳酪" data-no-frozen="false" data-no-8="false">2. 濃巧克力生乳酪 (可宅配/含酒)</option>
+                <option value="3.香濃黑芝麻生乳酪" data-no-frozen="false" data-no-8="false">3. 香濃黑芝麻生乳酪 (可宅配)</option>
+                <option value="4.蜜桃荔枝生乳酪" data-no-frozen="true" data-no-8="false">4. 蜜桃荔枝生乳酪 🔥 (限自取/外送)</option>
+                <option value="5.香蕉巧克力生乳酪" data-no-frozen="false" data-no-8="false">5. 香蕉巧克力生乳酪 - 香蕉濃 (可宅配)</option>
+                <option value="6.檸檬接骨木生乳酪" data-no-frozen="true" data-no-8="false">6. 檸檬接骨木生乳酪 - 喜歡酸的很推 🔥 (限自取/外送)</option>
+                <option value="7.蘋果柑橘生乳酪" data-no-frozen="true" data-no-8="false">7. 蘋果柑橘生乳酪 (限自取/外送)</option>
+                <option value="8.覆盆子巧克力生乳酪" data-no-frozen="false" data-no-8="false">8. 覆盆子巧克力生乳酪 🔥 (可宅配)</option>
+                <option value="9.日本濃抹茶生乳酪" data-no-frozen="true" data-no-8="true">9. 日本濃抹茶生乳酪 (限自取/外送)</option>
+                <option value="10.日本濃焙茶生乳酪" data-no-frozen="true" data-no-8="true">10. 日本濃焙茶生乳酪 (限自取/外送)</option>
+                <option value="11.鹹蛋黃焦糖生乳酪" data-no-frozen="false" data-no-8="false">11. 鹹蛋黃焦糖生乳酪 - 鹹甜鹹甜 🔥 (可宅配)</option>
+                <option value="12.百香果柑橘生乳酪" data-no-frozen="true" data-no-8="false">12. 百香果柑橘生乳酪 (限自取)</option>
+                <option value="13.巧克力香蕉生乳酪" data-no-frozen="false" data-no-8="false">13. 巧克力香蕉生乳酪 - 巧克力濃 (可宅配)</option>
+                <option value="14.經典莓果生乳酪" data-no-frozen="true" data-no-8="false">14. 經典莓果生乳酪 🔥 (限自取/外送)</option>
             </select>
         </div>
 
@@ -164,8 +164,9 @@
         <div class="action-steps">
             <div class="step">
                 <span class="step-num">1</span>
-                <p>點擊下方按鈕進行線上刷卡。請在結帳畫面的<strong>「備註欄」</strong>填寫訂單編號。</p>
-                <p>請於２日內完成付款，逾時訂單自動取消不另通知。<p>
+                <p>點擊下方按鈕進行線上刷卡。<p>
+                <p>請在結帳畫面的<strong>「備註欄」</strong>填寫訂單編號。</p>
+                <p>請於２日內完成付款，逾時訂單自動取消不另通知。</p>
                 <a href="https://api.payuni.com.tw/api/uop/receive_info/2/2/EASY1752297688917060/BQwWxN2P7X5pTGOLLAVq7" target="_blank" class="pay-btn">前往 PAYUNI 線上刷卡</a>
             </div>
 
