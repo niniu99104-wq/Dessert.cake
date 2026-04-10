@@ -10,12 +10,12 @@
 <body>
 
 <div class="container">
-    <h1>香草籽甜點工作室</h1>
+    <h1>香草籽' 生乳酪蛋糕</h1>
     <p class="subtitle">每一份甜點，都是照顧出來的能量</p>
 
     <div class="intro-box">
         <h3>生乳酪蛋糕系列 /</h3>
-        <p>我們的餅乾底，不是用外面一般市售的消化餅乾。整個蛋糕從裡到外、從上到下都是我們自己親手做的！吃了就知道啦～</p>
+        <p>餅乾底是我們親自手作，非市售消化餅。整個蛋糕從裡到外都是誠意，吃了就知道！</p>
     </div>
 
     <form id="orderForm" data-product-amount="0">
@@ -28,97 +28,40 @@
             <input type="tel" id="phone" required placeholder="方便聯繫您的電話">
         </div>
         
-<div class="form-group">
+        <div class="form-group">
             <label>生乳酪口味</label>
-            <select id="flavor" required onchange="checkConstraints(); updateTotal()">
+            <select id="flavor" required onchange="handleFlavorChange()">
                 <option value="" disabled selected>請選擇口味</option>
-                <option value="1.焦糖榛果" data-no-frozen="false" data-no-8="false">1. 焦糖榛果生乳酪 (堅果香)</option>
-                <option value="2.濃巧克力" data-no-frozen="false" data-no-8="false">2. 濃巧克力生乳酪 (偏苦甜/含酒)</option>
-                <option value="3.香濃黑芝麻" data-no-frozen="false" data-no-8="false">3. 香濃黑芝麻生乳酪 (純樸無華)</option>
-                <option value="4.蜜桃荔枝" data-no-frozen="true" data-no-8="false">4. 蜜桃荔枝生乳酪 🔥熱門 (限自取)</option>
-                <option value="5.香蕉巧克力" data-no-frozen="false" data-no-8="false">5. 香蕉巧克力生乳酪 (香蕉專屬)</option>
-                <option value="6.檸檬接骨木" data-no-frozen="true" data-no-8="false">6. 檸檬接骨木生乳酪 🔥熱門 (極酸/限自取)</option>
-                <option value="7.蘋果柑橘" data-no-frozen="true" data-no-8="false">7. 蘋果柑橘生乳酪 (清爽/限自取)</option>
-                <option value="8.覆盆子巧克力" data-no-frozen="false" data-no-8="false">8. 覆盆子巧克力生乳酪 🔥熱門 (酸甜)</option>
+                <option value="1.焦糖榛果" data-no-frozen="false" data-no-8="false">1. 焦糖榛果生乳酪 (可宅配)</option>
+                <option value="2.濃巧克力" data-no-frozen="false" data-no-8="false">2. 濃巧克力生乳酪 (可宅配)</option>
+                <option value="3.香濃黑芝麻" data-no-frozen="false" data-no-8="false">3. 香濃黑芝麻生乳酪 (可宅配)</option>
+                <option value="4.蜜桃荔枝" data-no-frozen="true" data-no-8="false">4. 蜜桃荔枝生乳酪 🔥 (限自取)</option>
+                <option value="5.香蕉巧克力" data-no-frozen="false" data-no-8="false">5. 香蕉巧克力生乳酪 - 香蕉濃 (可宅配)</option>
+                <option value="6.檸檬接骨木" data-no-frozen="true" data-no-8="false">6. 檸檬接骨木生乳酪 🔥 (極酸/限自取)</option>
+                <option value="7.蘋果柑橘" data-no-frozen="true" data-no-8="false">7. 蘋果柑橘生乳酪 (限自取)</option>
+                <option value="8.覆盆子巧克力" data-no-frozen="false" data-no-8="false">8. 覆盆子巧克力生乳酪 🔥 (可宅配)</option>
                 <option value="9.日本濃抹茶" data-no-frozen="true" data-no-8="true">9. 日本濃抹茶生乳酪 (無8吋/限自取)</option>
                 <option value="10.日本濃焙茶" data-no-frozen="true" data-no-8="true">10. 日本濃焙茶生乳酪 (無8吋/限自取)</option>
-                <option value="11.鹹蛋黃焦糖" data-no-frozen="false" data-no-8="false">11. 鹹蛋黃焦糖生乳酪 🔥熱門 (鹹甜)</option>
-                <option value="12.百香果柑橘" data-no-frozen="true" data-no-8="false">12. 百香果柑橘生乳酪 (微酸/限自取)</option>
-                <option value="13.巧克力香蕉" data-no-frozen="false" data-no-8="false">13. 巧克力香蕉生乳酪 (巧克力專屬)</option>
-                <option value="14.莓果" data-no-frozen="true" data-no-8="false">14. 莓果生乳酪 🔥熱門 (清爽/限自取)</option>
+                <option value="11.鹹蛋黃焦糖" data-no-frozen="false" data-no-8="false">11. 鹹蛋黃焦糖生乳酪 🔥 (可宅配)</option>
+                <option value="12.百香果柑橘" data-no-frozen="true" data-no-8="false">12. 百香果柑橘生乳酪 (限自取)</option>
+                <option value="13.巧克力香蕉" data-no-frozen="false" data-no-8="false">13. 巧克力香蕉生乳酪 - 巧克力濃 (可宅配)</option>
+                <option value="14.經典莓果" data-no-frozen="true" data-no-8="false">14. 經典莓果生乳酪 🔥 (限自取)</option>
             </select>
+        </div>
+
+        <div id="flavorPreviewBox" class="preview-box hidden">
+            <img id="flavorPreviewImg" src="" alt="蛋糕預覽">
+            <p class="preview-hint">以上照片僅供參考，實際裝飾依當天製作為主</p>
         </div>
 
         <div class="form-group">
             <label>選擇尺寸</label>
             <select id="size" required onchange="updateTotal()">
                 <option value="" disabled selected>請先選擇口味</option>
-                <option value="600" class="size-option">5吋 ($600) - 約4-5人</option>
-                <option value="720" class="size-option">6吋 ($720) - 約5-6人</option>
-                <option value="960" class="size-option" id="size-8">8吋 ($960) - 約7-8人</option>
+                <option value="600" id="size-5">5吋 ($600) - 約4-5人</option>
+                <option value="720" id="size-6">6吋 ($720) - 約5-6人</option>
+                <option value="960" id="size-8">8吋 ($960) - 約7-8人</option>
             </select>
-        </div>
-
-        <div class="product-gallery">
-            <label style="margin-bottom: 10px;">👇 左右滑動查看口味 (實際訂購不代切)</label>
-            <div class="gallery-items" style="display: flex; overflow-x: auto; gap: 15px; padding-bottom: 10px;">
-                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
-                    <img src="cake-1.jpg" alt="焦糖榛果">
-                    <div class="item-info"><span class="item-title">1. 焦糖榛果</span><span class="item-desc" style="font-size:0.8rem; color:#a0938a;">可宅配</span></div>
-                </div>
-                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
-                    <img src="cake-2.jpg" alt="濃巧克力">
-                    <div class="item-info"><span class="item-title">2. 濃巧克力</span><span class="item-desc" style="font-size:0.8rem; color:#a0938a;">可宅配</span></div>
-                </div>
-                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
-                    <img src="cake-3.jpg" alt="香濃黑芝麻">
-                    <div class="item-info"><span class="item-title">3. 香濃黑芝麻</span><span class="item-desc" style="font-size:0.8rem; color:#a0938a;">可宅配</span></div>
-                </div>
-                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
-                    <img src="cake-4.jpg" alt="蜜桃荔枝">
-                    <div class="item-info"><span class="item-title">4. 蜜桃荔枝 🔥</span><span class="item-desc" style="font-size:0.8rem; color:#d9534f;">限自取</span></div>
-                </div>
-                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
-                    <img src="cake-5.jpg" alt="香蕉巧克力">
-                    <div class="item-info"><span class="item-title">5. 香蕉巧克力</span><span class="item-desc" style="font-size:0.8rem; color:#a0938a;">可宅配</span></div>
-                </div>
-                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
-                    <img src="cake-6.jpg" alt="檸檬接骨木">
-                    <div class="item-info"><span class="item-title">6. 檸檬接骨木 🔥</span><span class="item-desc" style="font-size:0.8rem; color:#d9534f;">極酸/限自取</span></div>
-                </div>
-                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
-                    <img src="cake-7.jpg" alt="蘋果柑橘">
-                    <div class="item-info"><span class="item-title">7. 蘋果柑橘</span><span class="item-desc" style="font-size:0.8rem; color:#d9534f;">限自取</span></div>
-                </div>
-                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
-                    <img src="cake-8.jpg" alt="覆盆子巧克力">
-                    <div class="item-info"><span class="item-title">8. 覆盆子巧克力 🔥</span><span class="item-desc" style="font-size:0.8rem; color:#a0938a;">可宅配</span></div>
-                </div>
-                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
-                    <img src="cake-9.jpg" alt="日本濃抹茶">
-                    <div class="item-info"><span class="item-title">9. 日本濃抹茶</span><span class="item-desc" style="font-size:0.8rem; color:#d9534f;">無8吋/限自取</span></div>
-                </div>
-                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
-                    <img src="cake-10.jpg" alt="日本濃焙茶">
-                    <div class="item-info"><span class="item-title">10. 日本濃焙茶</span><span class="item-desc" style="font-size:0.8rem; color:#d9534f;">無8吋/限自取</span></div>
-                </div>
-                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
-                    <img src="cake-11.jpg" alt="鹹蛋黃焦糖">
-                    <div class="item-info"><span class="item-title">11. 鹹蛋黃焦糖 🔥</span><span class="item-desc" style="font-size:0.8rem; color:#a0938a;">可宅配</span></div>
-                </div>
-                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
-                    <img src="cake-12.jpg" alt="百香果柑橘">
-                    <div class="item-info"><span class="item-title">12. 百香果柑橘</span><span class="item-desc" style="font-size:0.8rem; color:#d9534f;">限自取</span></div>
-                </div>
-                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
-                    <img src="cake-13.jpg" alt="巧克力香蕉">
-                    <div class="item-info"><span class="item-title">13. 巧克力香蕉</span><span class="item-desc" style="font-size:0.8rem; color:#a0938a;">可宅配</span></div>
-                </div>
-                <div class="gallery-item" style="min-width: 140px; flex-shrink: 0;">
-                    <img src="cake-14.jpg" alt="經典莓果">
-                    <div class="item-info"><span class="item-title">14. 經典莓果 🔥</span><span class="item-desc" style="font-size:0.8rem; color:#d9534f;">限自取</span></div>
-                </div>
-            </div>
         </div>
         
         <div class="form-group">
@@ -179,27 +122,24 @@
                 <p><strong>【關於蛋糕與保存】</strong></p>
                 <ul>
                     <li>照片僅供參考，裝飾依當天製作為主。</li>
-                    <li>造型口味固定無客製化（❌寫字 ❌畫圖 ❌更改內容層次，無代切服務）。</li>
-                    <li>無添加其他化學凝固劑，離開冰箱太久容易軟塌。</li>
-                    <li><strong>取貨後請確保 30分~1小時內放進冰箱冷藏保存。</strong></li>
-                    <li>六吋以上蛋糕不附提袋，可自備袋子（大小約 25*25*高20）。</li>
+                    <li>造型口味固定無客製化（❌寫字 ❌畫圖 ❌無代切服務）。</li>
+                    <li>無添加化學凝固劑，離開冰箱太久容易軟塌。</li>
+                    <li><strong>取貨後請於 1 小時內放進冷藏保存。</strong></li>
                 </ul>
                 <p><strong>【關於宅配】</strong></p>
                 <ul>
-                    <li>冷凍宅配運費 $250/顆，兩顆以上合寄運費另計。疫情期間物流隨時可能不配送。</li>
-                    <li>為求環保，宅配最外盒會使用二手乾淨紙箱（內部蛋糕盒為全新）。</li>
-                    <li><strong>宅配有翻車風險，我們會加強固定但無法完全避免，可接受者再下單。</strong>收到蛋糕請第一時間拆開拍照回報，並馬上冷藏。</li>
+                    <li>冷凍宅配運費 $250/顆。兩顆以上運費另計。</li>
+                    <li><strong>宅配有翻車風險，可接受者再下單。</strong></li>
                 </ul>
                 <p><strong>【退款規則 (跨行扣$15手續費)】</strong></p>
                 <ul>
-                    <li>希望大家再三確定後再訂購，時間寶貴，不要完成訂購後又浪費彼此時間取消。</li>
                     <li>取貨日前 10 天取消：全額退款。</li>
                     <li>取貨日前 5 天取消：退總金額 50%。</li>
-                    <li>取貨日前 3 天：<strong>無法取消也不退款</strong>，可更換時間（若仍無法配合，轉為儲值金不退款）。</li>
+                    <li>取貨日前 3 天：<strong>無法取消也不退款</strong>。</li>
                 </ul>
             </div>
             <label class="checkbox-label agree-label">
-                <input type="checkbox" id="agreeTerms" required> <strong>我已詳細閱讀並同意以上須知，確認後再訂購！</strong>
+                <input type="checkbox" id="agreeTerms" required> <strong>我已閱讀並同意須知，確認後再訂購！</strong>
             </label>
         </div>
         
@@ -215,16 +155,12 @@
         <h2 style="color: var(--accent-color);">📝 訂單已建立！</h2>
         <p>您的專屬訂單編號</p>
         <div class="highlight-text" id="displayOrderId"></div>
-        
         <p style="margin-top: 20px;">應付總額</p>
         <div class="highlight-text">$<span id="displayOrderTotal"></span></div>
-        
         <p class="note-text">
-            請點擊下方按鈕前往線上刷卡/轉帳。<br>
-            💡 <strong>請務必在結帳畫面的「備註欄」填入您的訂單編號</strong>，以便我們為您快速對帳安排製作喔！<br>
-            ⚠️ 若有選用宅配服務，請記得截圖私訊我們確認細節喔。
+            請點擊下方按鈕前往線上結帳。<br>
+            💡 <strong>務必在結帳畫面的「備註欄」填入您的訂單編號</strong>！<br>
         </p>
-        
         <a href="https://你的PAYUNI或藍新萬用收款連結" target="_blank" class="pay-btn">前往線上結帳</a>
     </div>
 </div>
