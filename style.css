@@ -1,4 +1,43 @@
-/* 將這段加到妳原本的 style.css 最底下即可 */
+:root {
+    --bg-color: #fdfaf6;
+    --accent-color: #8e7d72;
+    --text-color: #5a524d;
+    --card-bg: #ffffff;
+    --input-border: #e0d8d0;
+}
+
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(142, 125, 114, 0.1);
+}
+
+h1 {
+    font-family: 'Noto Serif TC', serif;
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+    color: var(--accent-color);
+}
+
+p.subtitle {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+    color: #a0938a;
+}
 
 /* 品牌宣言區 */
 .intro-box {
@@ -22,51 +61,118 @@
     color: #6a605a;
 }
 
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--accent-color);
+}
+
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 400;
+    color: var(--text-color);
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.checkbox-label input {
+    width: auto;
+    margin-right: 8px;
+    accent-color: var(--accent-color);
+}
+
+input[type="text"], input[type="tel"], input[type="date"], select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    font-size: 1rem;
+    color: var(--text-color);
+    box-sizing: border-box;
+    background-color: #fff;
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+/* 圖片展示區 */
+.product-gallery { margin-bottom: 25px; }
+.gallery-items { display: flex; gap: 10px; justify-content: space-between; }
+.gallery-item { width: 32%; background: #fff; border: 1px solid var(--input-border); border-radius: 8px; overflow: hidden; box-sizing: border-box;}
+.gallery-item img { width: 100%; height: 100px; object-fit: cover; display: block; }
+.item-info { padding: 8px 0; text-align: center; }
+.item-title { display: block; font-size: 0.85rem; color: var(--text-color); font-weight: 500; }
+
 /* 條款區塊設計 */
 .terms-container {
     margin-top: 30px;
     margin-bottom: 20px;
 }
-
 .terms-box {
     background-color: #faf8f5;
     border: 1px solid var(--input-border);
     border-radius: 10px;
     padding: 15px;
-    max-height: 200px; /* 設定最高高度，超過會出現滾動條 */
+    max-height: 200px;
     overflow-y: auto;
     font-size: 0.85rem;
     color: #6a605a;
     margin-bottom: 15px;
 }
+.terms-box p { margin: 10px 0 5px 0; color: var(--accent-color); }
+.terms-box p:first-child { margin-top: 0; }
+.terms-box ul { margin: 0; padding-left: 20px; }
+.terms-box li { margin-bottom: 4px; }
+.agree-label { color: var(--accent-color); font-size: 0.95rem; }
 
-.terms-box p {
-    margin: 10px 0 5px 0;
-    color: var(--accent-color);
+.total-section {
+    border-top: 1px dashed var(--input-border);
+    margin-top: 30px;
+    padding-top: 20px;
+    text-align: right;
 }
 
-.terms-box p:first-child {
-    margin-top: 0;
+.total-section p { margin: 5px 0; }
+.total-amount { font-size: 1.5rem; font-weight: 700; color: var(--accent-color); }
+
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+    font-family: 'Noto Sans TC', sans-serif;
 }
 
-.terms-box ul {
-    margin: 0;
-    padding-left: 20px;
-}
+button:hover { background-color: #7a6a5f; }
+button:disabled { background-color: #c4bbb4; cursor: not-allowed; }
 
-.terms-box li {
-    margin-bottom: 4px;
-}
+.hidden { display: none; }
 
-.agree-label {
-    color: var(--accent-color);
-    font-size: 0.95rem;
+/* 結帳成功畫面專屬樣式 */
+.text-center { text-align: center; }
+.success-box { padding: 30px 20px; }
+.highlight-text { font-size: 1.6rem; color: var(--accent-color); font-weight: 700; margin: 10px 0; letter-spacing: 1px;}
+.pay-btn {
+    display: block; width: 100%; padding: 15px; background-color: #5a524d; color: white;
+    border-radius: 10px; font-size: 1.1rem; font-weight: 700; text-decoration: none; margin-top: 25px; transition: 0.3s;
+    box-sizing: border-box;
 }
-
-/* 圖片展示區微調 */
-.product-gallery { margin-bottom: 20px; }
-.gallery-items { display: flex; gap: 10px; justify-content: space-between; }
-.gallery-item { width: 32%; border: 1px solid var(--input-border); border-radius: 8px; overflow: hidden; }
-.gallery-item img { width: 100%; height: auto; display: block; }
-.item-info { padding: 8px 0; text-align: center; }
-.item-title { font-size: 0.85rem; color: var(--text-color); font-weight: 500;}
+.pay-btn:hover { background-color: #433d39; }
+.note-text { font-size: 0.95rem; color: #a0938a; margin-top: 15px; line-height: 1.6; }
