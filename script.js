@@ -2,15 +2,9 @@ let originalSize8Option = null;
 let originalFrozenOption = null;
 
 // 💡 【店休日與不接單日設定區】
-// 已經幫妳填好這 7 天
 const offDays = [
-    "2026-04-12", 
-    "2026-04-18", 
-    "2026-04-19", 
-    "2026-04-20", 
-    "2026-04-25", 
-    "2026-04-26", 
-    "2026-04-27"
+    "2026-04-12", "2026-04-18", "2026-04-19", "2026-04-20", 
+    "2026-04-25", "2026-04-26", "2026-04-27"
 ];
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -24,10 +18,10 @@ document.addEventListener("DOMContentLoaded", function() {
     dateInput.min = minStr;
     dateInput.value = minStr;
     
-    // 2. 設定最大值 (15號開放下月邏輯)
-    let maxDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); // 本月底
+    // 2. 設定最大值 (15號開放下月規則)
+    let maxDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); 
     if (today.getDate() >= 15) {
-        maxDate = new Date(today.getFullYear(), today.getMonth() + 2, 0); // 下月底
+        maxDate = new Date(today.getFullYear(), today.getMonth() + 2, 0);
     }
     dateInput.max = maxDate.toISOString().split('T')[0];
     
@@ -47,14 +41,12 @@ function validateDate() {
     const selectedDate = new Date(selectedDateStr);
     const dayOfWeek = selectedDate.getDay(); 
     
-    // 1. 檢查自定義店休日
     if (offDays.includes(selectedDateStr)) {
         alert("這天是店休日或滿單日，不接單喔，請選擇其他日期，謝謝！");
         dateInput.value = dateInput.min;
         return;
     }
     
-    // 2. 檢查宅配週末限制
     if (methodSelect.value === 'frozen') {
         if (dayOfWeek === 5 || dayOfWeek === 6 || dayOfWeek === 0) {
             alert("黑貓宅配週五、週六、週日不收件也不配送喔！\n請選擇週一至週四，或是改為店鋪自取。");
@@ -166,6 +158,8 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
     submitBtn.disabled = true;
 
     const newOrderId = generateOrderId();
+    const finalTotal = document.getElementById('totalDisplay').innerText;
+    
     let addonsList = [];
     if (document.getElementById('candle').checked) addonsList.push("加購小蠟燭");
     if (document.getElementById('cutlery').checked) addonsList.push("加購餐具組");
@@ -186,21 +180,22 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
         addons: addonsList.join('、') || '無',
         productAmount: document.getElementById('orderForm').getAttribute('data-product-amount') || 0,
         shippingFee: document.getElementById('shippingDisplay').innerText,
-        total: document.getElementById('totalDisplay').innerText
+        total: finalTotal
     };
 
+    // 💡 這裡已經代入妳提供的網址
     const scriptURL = 'https://script.google.com/macros/s/AKfycbzYYDZBok2sTcHpBOzwIXRvTs511o3vS79zEeYQAa8o7msQGRR_e83RlepveH8AnVgZ/exec';
 
     fetch(scriptURL, { method: 'POST', body: JSON.stringify(formData) })
     .then(() => {
         document.getElementById('orderForm').classList.add('hidden');
         document.getElementById('displayOrderId').innerText = newOrderId;
-        document.getElementById('displayOrderTotal').innerText = document.getElementById('totalDisplay').innerText;
+        document.getElementById('displayOrderTotal').innerText = finalTotal;
         document.getElementById('successSection').classList.remove('hidden');
         window.scrollTo(0, 0); 
     })
     .catch(() => {
-        alert('連線忙碌中，請聯繫香草籽。');
+        alert('系統連線忙碌中，請聯繫香草籽粉專。');
         submitBtn.disabled = false;
         submitBtn.innerText = "建立訂單並前往結帳";
     });
