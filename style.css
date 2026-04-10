@@ -32,12 +32,7 @@ h1 {
     color: var(--accent-color);
 }
 
-p.subtitle {
-    text-align: center;
-    font-size: 0.9rem;
-    margin-bottom: 30px;
-    color: #a0938a;
-}
+p.subtitle { text-align: center; font-size: 0.9rem; margin-bottom: 30px; color: #a0938a; }
 
 .intro-box {
     background-color: #f4efea;
@@ -71,7 +66,6 @@ input, select {
     background-color: #fff;
 }
 
-/* ✨ 動態照片預覽區：優化為清晰大圖 */
 .preview-box {
     margin-bottom: 25px;
     border: 1px solid var(--input-border);
@@ -86,8 +80,8 @@ input, select {
 
 .preview-box img {
     width: 100%;
-    max-height: 450px; /* 加大照片高度限制 */
-    object-fit: contain; /* 完整呈現照片不裁切 */
+    max-height: 450px;
+    object-fit: contain;
     border-radius: 10px;
     display: block;
 }
@@ -114,9 +108,11 @@ button {
     border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-top: 20px;
 }
 
+.checkbox-label { display: flex; align-items: center; cursor: pointer; color: var(--text-color); }
+.checkbox-label input { width: auto; margin-right: 10px; }
+
 .hidden { display: none !important; }
 
-/* 成功畫面 */
 .success-box { padding: 30px 20px; text-align: center; }
 .highlight-text { font-size: 1.6rem; color: var(--accent-color); font-weight: 700; margin: 10px 0; }
 .pay-btn {
