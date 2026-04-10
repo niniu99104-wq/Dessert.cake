@@ -18,17 +18,15 @@
             <label>訂購人姓名</label>
             <input type="text" id="name" required placeholder="如何稱呼您？">
         </div>
-
         <div class="form-group">
             <label>電話</label>
             <input type="tel" id="phone" required placeholder="方便聯繫您的電話">
         </div>
-
+        
         <div class="form-group">
             <label>生乳酪口味</label>
             <input type="text" id="flavor" required placeholder="例如：原味、季節限定...">
         </div>
-
         <div class="form-group">
             <label>選擇尺寸</label>
             <select id="size" required onchange="updateTotal()">
@@ -38,12 +36,12 @@
                 <option value="960">8 吋生乳酪 ($960)</option>
             </select>
         </div>
-
+        
         <div class="form-group">
             <label>取貨/送達日期 (需提前5天預訂)</label>
             <input type="date" id="pickupDate" required>
         </div>
-
+        
         <div class="form-group">
             <label>收貨方式</label>
             <select id="method" required onchange="toggleShipping()">
@@ -51,7 +49,7 @@
                 <option value="delivery">專人外送 (台南指定區域)</option>
             </select>
         </div>
-
+        
         <div id="pickupSection" class="form-group">
             <label>自取時段 (15:30~18:30)</label>
             <select id="pickupTime">
@@ -64,7 +62,7 @@
                 <option>18:30</option>
             </select>
         </div>
-
+        
         <div id="deliverySection" class="hidden">
             <div class="form-group">
                 <label>配送行政區</label>
@@ -79,23 +77,38 @@
                 <input type="text" id="address" placeholder="請輸入完整地址">
             </div>
         </div>
-
+        
         <div class="form-group">
             <label>加購項目</label>
             <label class="checkbox-label"><input type="checkbox" id="candle" onchange="updateTotal()"> 造型蠟燭 (+$10)</label>
-            <label class="checkbox-label"><input type="checkbox" id="cutlery" onchange="updateTotal()"> 額外刀叉盤 4 人份 (+$10)</label>
+            <label class="checkbox-label"><input type="checkbox" id="cutlery" onchange="updateTotal()"> 額外刀叉盤 6 人份 (+$20)</label>
         </div>
-
+        
         <div class="total-section">
             <p>運費：$<span id="shippingDisplay">0</span></p>
             <p>應付總額：<span class="total-amount">$<span id="totalDisplay">0</span></span></p>
         </div>
-
-        <button type="submit" id="submitBtn">確認下單</button>
+        
+        <button type="submit" id="submitBtn">建立訂單並前往結帳</button>
     </form>
+
+    <div id="successSection" class="hidden success-box text-center">
+        <h2 style="color: var(--accent-color);">📝 訂單已建立！</h2>
+        <p>您的專屬訂單編號</p>
+        <div class="highlight-text" id="displayOrderId"></div>
+        
+        <p style="margin-top: 20px;">應付總額</p>
+        <div class="highlight-text">$<span id="displayOrderTotal"></span></div>
+        
+        <p class="note-text">
+            請點擊下方按鈕前往線上刷卡/轉帳。<br>
+            💡 <strong>請務必在結帳畫面的「備註欄」填入您的訂單編號</strong>，以便我們為您快速對帳安排製作喔！
+        </p>
+        
+        <a href="https://你的PAYUNI或藍新萬用收款連結" target="_blank" class="pay-btn">前往線上結帳</a>
+    </div>
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
