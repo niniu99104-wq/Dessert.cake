@@ -1,7 +1,6 @@
 let originalSize8Option = null;
 let originalFrozenOption = null;
 
-// 💡 【店休日與不接單日設定區】
 const offDays = [
     "2026-04-12", "2026-04-18", "2026-04-19", "2026-04-20", 
     "2026-04-25", "2026-04-26", "2026-04-27"
@@ -10,15 +9,11 @@ const offDays = [
 document.addEventListener("DOMContentLoaded", function() {
     const dateInput = document.getElementById('pickupDate');
     const today = new Date();
-    
-    // 1. 設定最小值 (今天+5天)
     const minDate = new Date();
     minDate.setDate(today.getDate() + 5);
-    const minStr = minDate.toISOString().split('T')[0];
-    dateInput.min = minStr;
-    dateInput.value = minStr;
+    dateInput.min = minDate.toISOString().split('T')[0];
+    dateInput.value = minDate.toISOString().split('T')[0];
     
-    // 2. 設定最大值 (15號開放下月規則)
     let maxDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); 
     if (today.getDate() >= 15) {
         maxDate = new Date(today.getFullYear(), today.getMonth() + 2, 0);
@@ -27,33 +22,8 @@ document.addEventListener("DOMContentLoaded", function() {
     
     originalSize8Option = document.getElementById('size-8');
     originalFrozenOption = document.getElementById('frozen-option');
-    
     validateDate();
 });
-
-function validateDate() {
-    const dateInput = document.getElementById('pickupDate');
-    const methodSelect = document.getElementById('method');
-    const selectedDateStr = dateInput.value;
-    
-    if (!selectedDateStr) return;
-    
-    const selectedDate = new Date(selectedDateStr);
-    const dayOfWeek = selectedDate.getDay(); 
-    
-    if (offDays.includes(selectedDateStr)) {
-        alert("這天是店休日或滿單日，不接單喔，請選擇其他日期，謝謝！");
-        dateInput.value = dateInput.min;
-        return;
-    }
-    
-    if (methodSelect.value === 'frozen') {
-        if (dayOfWeek === 5 || dayOfWeek === 6 || dayOfWeek === 0) {
-            alert("黑貓宅配週五、週六、週日不收件也不配送喔！\n請選擇週一至週四，或是改為店鋪自取。");
-            dateInput.value = ""; 
-        }
-    }
-}
 
 function handleFlavorChange() {
     checkConstraints();
@@ -77,33 +47,43 @@ function updateImagePreview() {
 function checkConstraints() {
     const flavorSelect = document.getElementById('flavor');
     if (flavorSelect.selectedIndex === 0) return;
-    
     const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
     const no8inch = selectedOption.getAttribute("data-no-8") === "true";
     const noFrozen = selectedOption.getAttribute("data-no-frozen") === "true";
-    
     const sizeSelect = document.getElementById('size');
     const methodSelect = document.getElementById('method');
 
     if (no8inch) {
         if (document.getElementById('size-8')) document.getElementById('size-8').remove();
-        if (sizeSelect.value === "960") {
-            sizeSelect.value = ""; 
-            updateTotal();
-        }
+        if (sizeSelect.value === "960") { sizeSelect.value = ""; updateTotal(); }
     } else {
         if (!document.getElementById('size-8')) sizeSelect.appendChild(originalSize8Option);
     }
 
-    const currentFrozen = document.getElementById('frozen-option');
     if (noFrozen) {
-        if (currentFrozen) currentFrozen.remove();
-        if (methodSelect.value === "frozen") {
-            methodSelect.value = "pickup";
-            toggleShipping(); 
-        }
+        if (document.getElementById('frozen-option')) document.getElementById('frozen-option').remove();
+        if (methodSelect.value === "frozen") { methodSelect.value = "pickup"; toggleShipping(); }
     } else {
         if (!document.getElementById('frozen-option')) methodSelect.appendChild(originalFrozenOption);
+    }
+}
+
+function validateDate() {
+    const dateInput = document.getElementById('pickupDate');
+    const methodSelect = document.getElementById('method');
+    const selectedDateStr = dateInput.value;
+    if (!selectedDateStr) return;
+    const selectedDate = new Date(selectedDateStr);
+    const dayOfWeek = selectedDate.getDay(); 
+
+    if (offDays.includes(selectedDateStr)) {
+        alert("這天店休喔，請選擇其他日期，謝謝！");
+        dateInput.value = dateInput.min;
+        return;
+    }
+    if (methodSelect.value === 'frozen' && (dayOfWeek === 5 || dayOfWeek === 6 || dayOfWeek === 0)) {
+        alert("宅配週五六日不收件也不配送喔！");
+        dateInput.value = ""; 
     }
 }
 
@@ -117,10 +97,7 @@ function toggleShipping() {
     } else {
         document.getElementById('pickupSection').classList.toggle('hidden', method !== 'pickup');
         document.getElementById('deliverySection').classList.toggle('hidden', method !== 'delivery');
-        if (method === 'pickup') {
-            document.getElementById('address').value = '';
-            document.getElementById('district').value = "0";
-        }
+        if (method === 'pickup') { document.getElementById('address').value = ''; document.getElementById('district').value = "0"; }
     }
     updateTotal();
 }
@@ -129,16 +106,13 @@ function updateTotal() {
     const basePrice = parseInt(document.getElementById('size').value) || 0;
     const method = document.getElementById('method').value;
     let shipping = 0;
-
     if (method === 'delivery' || method === 'frozen') {
         shipping = parseInt(document.getElementById('district').value);
         if (shipping === 60 && basePrice >= 1000) shipping = 0;
         if (shipping === 120 && basePrice >= 1500) shipping = 0;
     }
-
     const addon1 = document.getElementById('candle').checked ? 5 : 0;
     const addon2 = document.getElementById('cutlery').checked ? 10 : 0;
-    
     const total = basePrice + addon1 + addon2 + shipping;
     document.getElementById('shippingDisplay').innerText = shipping;
     document.getElementById('totalDisplay').innerText = total;
@@ -156,10 +130,8 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.innerText = "連線中...";
     submitBtn.disabled = true;
-
     const newOrderId = generateOrderId();
     const finalTotal = document.getElementById('totalDisplay').innerText;
-    
     let addonsList = [];
     if (document.getElementById('candle').checked) addonsList.push("加購小蠟燭");
     if (document.getElementById('cutlery').checked) addonsList.push("加購餐具組");
@@ -183,10 +155,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
         total: finalTotal
     };
 
-    // 💡 這裡已經代入妳提供的網址
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzYYDZBok2sTcHpBOzwIXRvTs511o3vS79zEeYQAa8o7msQGRR_e83RlepveH8AnVgZ/exec';
-
-    fetch(scriptURL, { method: 'POST', body: JSON.stringify(formData) })
+    fetch('https://script.google.com/macros/s/AKfycbzYYDZBok2sTcHpBOzwIXRvTs511o3vS79zEeYQAa8o7msQGRR_e83RlepveH8AnVgZ/exec', { method: 'POST', body: JSON.stringify(formData) })
     .then(() => {
         document.getElementById('orderForm').classList.add('hidden');
         document.getElementById('displayOrderId').innerText = newOrderId;
@@ -195,7 +164,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
         window.scrollTo(0, 0); 
     })
     .catch(() => {
-        alert('系統連線忙碌中，請聯繫香草籽粉專。');
+        alert('連線忙碌中，請直接聯繫香草籽粉專。');
         submitBtn.disabled = false;
         submitBtn.innerText = "建立訂單並前往結帳";
     });
