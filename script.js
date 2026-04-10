@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // 設定日期邏輯：下單日 + 5 天
     const dateInput = document.getElementById('pickupDate');
     const today = new Date();
     today.setDate(today.getDate() + 5);
@@ -10,14 +9,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function toggleShipping() {
     const method = document.getElementById('method').value;
-    // 根據選擇切換顯示區塊
     document.getElementById('pickupSection').classList.toggle('hidden', method !== 'pickup');
     document.getElementById('deliverySection').classList.toggle('hidden', method !== 'delivery');
-    
-    // 如果切換回自取，清空地址欄位，避免傳送錯誤資料
-    if (method === 'pickup') {
-        document.getElementById('address').value = '';
-    }
+    if (method === 'pickup') document.getElementById('address').value = '';
     updateTotal();
 }
 
@@ -28,7 +22,6 @@ function updateTotal() {
 
     if (method === 'delivery') {
         shipping = parseInt(document.getElementById('district').value);
-        // 免運邏輯
         if (shipping === 60 && basePrice >= 1000) shipping = 0;
         if (shipping === 120 && basePrice >= 1500) shipping = 0;
     }
@@ -36,30 +29,40 @@ function updateTotal() {
     const addon1 = document.getElementById('candle').checked ? 10 : 0;
     const addon2 = document.getElementById('cutlery').checked ? 20 : 0;
     
-    // 計算商品總額與最終總額
     const productAmount = basePrice + addon1 + addon2;
     const total = productAmount + shipping;
 
-    // 更新畫面顯示
     document.getElementById('shippingDisplay').innerText = shipping;
     document.getElementById('totalDisplay').innerText = total;
-    
-    // 將商品金額存入 form 的屬性中，方便送出時抓取
     document.getElementById('orderForm').dataset.productAmount = productAmount; 
+}
+
+// 產生專屬訂單編號 (例如：DM260410-XY01)
+function generateOrderId() {
+    const now = new Date();
+    const datePart = now.getFullYear().toString().slice(-2) + 
+                     String(now.getMonth() + 1).padStart(2, '0') + 
+                     String(now.getDate()).padStart(2, '0');
+    const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
+    return `DM${datePart}-${randomPart}`;
 }
 
 document.getElementById('orderForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const submitBtn = document.getElementById('submitBtn');
-    submitBtn.innerText = "訂單處理中...";
+    submitBtn.innerText = "訂單連線中...";
     submitBtn.disabled = true;
 
-    // 取得尺寸文字 (例如 "8 吋生乳酪 ($960)")
     const sizeSelect = document.getElementById('size');
     const sizeText = sizeSelect.options[sizeSelect.selectedIndex].text;
+    
+    const newOrderId = generateOrderId();
+    const finalTotal = document.getElementById('totalDisplay').innerText;
 
-    // 準備傳送的 12 個欄位資料
+    // 準備傳送給 Google 試算表的資料 (帶有 action: createOrder)
     const formData = {
+        action: "createOrder",
+        orderId: newOrderId,
         orderDate: new Date().toLocaleDateString('zh-TW'),
         pickupDate: document.getElementById('pickupDate').value,
         pickupTime: document.getElementById('method').value === 'pickup' ? document.getElementById('pickupTime').value : '無',
@@ -71,23 +74,27 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
         address: document.getElementById('method').value === 'pickup' ? '中西區大智街141號(自取)' : document.getElementById('address').value,
         productAmount: document.getElementById('orderForm').dataset.productAmount || 0,
         shippingFee: document.getElementById('shippingDisplay').innerText,
-        total: document.getElementById('totalDisplay').innerText
+        total: finalTotal
     };
 
-    // 💡 請將下方單引號內的網址替換為妳部署好的 Google Apps Script URL
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwTUlycJvviDm0bwcYrYx2Ecu-g1KBDk36n1dsDbLMdn-Sht17Q0AtB0Ff7mDxsLpN3/exec';
+    // 💡 務必替換為妳部署好的 Google Apps Script 網址
+    const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
 
     fetch(scriptURL, { 
         method: 'POST', 
         body: JSON.stringify(formData) 
     })
     .then(res => {
-        alert('訂單已收到！請留意後續付款通知。');
-        window.location.reload(); // 成功後重整頁面
+        // 成功寫入試算表後，切換到結帳引導畫面
+        document.getElementById('orderForm').classList.add('hidden');
+        document.getElementById('displayOrderId').innerText = newOrderId;
+        document.getElementById('displayOrderTotal').innerText = finalTotal;
+        document.getElementById('successSection').classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' }); 
     })
     .catch(error => {
         alert('系統忙碌中，請直接截圖私訊 Line。');
         submitBtn.disabled = false;
-        submitBtn.innerText = "確認下單";
+        submitBtn.innerText = "建立訂單並前往結帳";
     });
 });
