@@ -7,6 +7,43 @@ document.addEventListener("DOMContentLoaded", function() {
     dateInput.value = minDate; 
 });
 
+// 防呆機制：檢查口味是否支援 8 吋或宅配
+function checkConstraints() {
+    const flavorSelect = document.getElementById('flavor');
+    if (flavorSelect.selectedIndex === 0) return;
+    
+    const selectedOption = flavorSelect.options[flavorSelect.selectedIndex];
+    const no8inch = selectedOption.dataset.no8 === "true";
+    const noFrozen = selectedOption.dataset.noFrozen === "true";
+    
+    // 處理 8 吋限制
+    const size8Option = document.getElementById('size-8');
+    const sizeSelect = document.getElementById('size');
+    if (no8inch) {
+        size8Option.disabled = true;
+        if (sizeSelect.value === "960") {
+            alert("不好意思，抹茶/焙茶系列沒辦法做 8 吋喔！幫您重置尺寸。");
+            sizeSelect.value = "";
+        }
+    } else {
+        size8Option.disabled = false;
+    }
+
+    // 處理宅配限制
+    const methodSelect = document.getElementById('method');
+    const frozenOption = methodSelect.querySelector('option[value="frozen"]');
+    if (noFrozen) {
+        frozenOption.disabled = true;
+        if (methodSelect.value === "frozen") {
+            alert("寒天凍或茶系列在退冰時會影響口感，這款不能冷凍宅配喔！幫您切換回自取。");
+            methodSelect.value = "pickup";
+            toggleShipping();
+        }
+    } else {
+        frozenOption.disabled = false;
+    }
+}
+
 function toggleShipping() {
     const method = document.getElementById('method').value;
     
